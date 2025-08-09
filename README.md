@@ -3,7 +3,6 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/infragenius/infragenius/workflows/CI/badge.svg)](https://github.com/infragenius/infragenius/actions)
 [![Coverage](https://codecov.io/gh/infragenius/infragenius/branch/main/graph/badge.svg)](https://codecov.io/gh/infragenius/infragenius)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Compatible-326CE5.svg)](https://kubernetes.io)

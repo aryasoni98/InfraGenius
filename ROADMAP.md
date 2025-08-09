@@ -10,7 +10,7 @@ Empower developers and SRE teams with AI-driven insights, automation, and best p
 
 ---
 
-## 🚀 6-Month Development Plan (2024)
+## 🚀 6-Month Development Plan (2025)
 
 ### **📅 Month 1-2: Foundation & Community Building**
 

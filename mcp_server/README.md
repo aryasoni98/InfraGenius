@@ -95,7 +95,7 @@ python fine_tuning/fine_tune.py \
 ```python
 # Analyze system logs with domain expertise
 result = await server.analyze_logs(
-    logs="2024-01-15T10:30:15Z [ERROR] api-gateway: High response time detected",
+    logs="2025-01-15T10:30:15Z [ERROR] api-gateway: High response time detected",
     analysis_type="devops",
     context="Production Kubernetes cluster"
 )
@@ -414,10 +414,10 @@ spec:
 ### DevOps Pipeline Analysis
 ```python
 pipeline_logs = """
-2024-01-15T10:30:15Z [INFO] Starting CI/CD pipeline for microservice-api
-2024-01-15T10:30:20Z [INFO] Running unit tests... PASSED
-2024-01-15T10:30:25Z [ERROR] Security scan failed: High severity vulnerability detected
-2024-01-15T10:30:26Z [INFO] Pipeline stopped due to security gate failure
+2025-01-15T10:30:15Z [INFO] Starting CI/CD pipeline for microservice-api
+2025-01-15T10:30:20Z [INFO] Running unit tests... PASSED
+2025-01-15T10:30:25Z [ERROR] Security scan failed: High severity vulnerability detected
+2025-01-15T10:30:26Z [INFO] Pipeline stopped due to security gate failure
 """
 
 result = await server.analyze_logs(
@@ -433,10 +433,10 @@ print(result['recommendations'])
 ### SRE Incident Response
 ```python
 incident_data = """
-2024-01-15T10:30:00Z [CRITICAL] API Gateway: Response time exceeded 5s
-2024-01-15T10:30:05Z [ERROR] Database: Connection pool exhausted
-2024-01-15T10:30:10Z [WARN] Load Balancer: Health check failures increasing
-2024-01-15T10:30:15Z [INFO] Auto-scaling triggered: Adding 3 instances
+2025-01-15T10:30:00Z [CRITICAL] API Gateway: Response time exceeded 5s
+2025-01-15T10:30:05Z [ERROR] Database: Connection pool exhausted
+2025-01-15T10:30:10Z [WARN] Load Balancer: Health check failures increasing
+2025-01-15T10:30:15Z [INFO] Auto-scaling triggered: Adding 3 instances
 """
 
 result = await server.incident_analysis(

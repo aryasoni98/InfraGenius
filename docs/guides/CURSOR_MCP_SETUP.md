@@ -298,7 +298,7 @@ pwd
 #### **5. Log Analysis**
 ```javascript
 @infragenius explain_logs {
-  "logs": "2024-01-15 10:30:45 ERROR [pool-1-thread-1] c.e.s.DatabaseService - Connection pool exhausted",
+  "logs": "2025-01-15 10:30:45 ERROR [pool-1-thread-1] c.e.s.DatabaseService - Connection pool exhausted",
   "log_type": "application"
 }
 ```

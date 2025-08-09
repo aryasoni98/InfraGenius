@@ -320,8 +320,8 @@ groups:
 This security policy is reviewed and updated quarterly. The latest version is always available at:
 https://github.com/infragenius/infragenius/blob/main/SECURITY.md
 
-**Last Updated**: January 2024  
-**Next Review**: April 2024
+**Last Updated**: January 2025  
+**Next Review**: April 2025
 
 ---
 

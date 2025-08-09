@@ -211,5 +211,5 @@ For questions about this Code of Conduct, please contact:
 Thank you for helping make InfraGenius a welcoming and inclusive community for everyone. Together, we can build amazing tools and share knowledge that benefits the entire DevOps and SRE community.
 
 **Version**: 1.0  
-**Effective Date**: January 2024  
-**Last Updated**: January 2024
+**Effective Date**: January 2025  
+**Last Updated**: January 2025
