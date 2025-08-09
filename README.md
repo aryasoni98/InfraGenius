@@ -738,32 +738,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 🐛 [GitHub Issues](https://github.com/aryasoni98/infragenius/issues)
 - 🤝 [Contributing Guide](CONTRIBUTING.md)
 
-## 🎯 Roadmap
-
-### Q1 2024
-- [ ] Advanced fine-tuning capabilities
-- [ ] Multi-model support
-- [ ] Enhanced UI/UX
-- [ ] Mobile app
-
-### Q2 2024
-- [ ] AI-powered incident response
-- [ ] Automated runbook generation
-- [ ] Advanced cost optimization
-- [ ] Compliance automation
-
-### Q3 2024
-- [ ] Multi-model architecture
-- [ ] Advanced analytics
-- [ ] Custom model training
-- [ ] Enhanced integrations
-
-### Q4 2024
-- [ ] Edge deployment
-- [ ] IoT integration
-- [ ] Advanced security features
-- [ ] Performance improvements
-
 ## 📊 Performance Benchmarks
 
 | Metric | Performance |
@@ -793,8 +767,8 @@ cd infragenius
 
 <div align="center">
   <strong>Made with ❤️ for the DevOps community</strong><br>
-  <a href="https://#">Website</a> •
-  <a href="https://docs.#">Documentation</a> •
-  <a href="https://community.#">Community</a> •
-  <a href="mailto:hello@#">Contact</a>
+  <a href="#">Website</a> •
+  <a href="#">Documentation</a> •
+  <a href="#">Community</a> •
+  <a href="#">Contact</a>
 </div>
