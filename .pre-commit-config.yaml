@@ -1,0 +1,272 @@
+# Pre-commit configuration for InfraGenius
+# Install with: pre-commit install
+
+repos:
+  # Basic file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.md$'
+      - id: end-of-file-fixer
+        exclude: '\.md$'
+      - id: check-yaml
+        args: ['--unsafe']
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: name-tests-test
+        args: ['--pytest-test-first']
+
+  # Python code formatting
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        language_version: python3
+        args: ['--line-length=88']
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ['--profile', 'black', '--line-length', '88']
+
+  # Python linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        args: [
+          '--max-line-length=88',
+          '--extend-ignore=E203,W503',
+          '--exclude=.git,__pycache__,build,dist,*.egg-info'
+        ]
+        additional_dependencies:
+          - flake8-docstrings
+          - flake8-import-order
+          - flake8-builtins
+          - flake8-comprehensions
+          - flake8-simplify
+
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.5.1
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-requests
+          - types-redis
+          - types-PyYAML
+        args: [
+          '--ignore-missing-imports',
+          '--disallow-untyped-defs',
+          '--no-implicit-optional'
+        ]
+
+  # Security scanning
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: ['-r', 'mcp_server/', '-f', 'json']
+        exclude: 'tests/'
+
+  # Dependency security
+  - repo: https://github.com/pyupio/safety
+    rev: 2.3.5
+    hooks:
+      - id: safety
+        args: ['--ignore', '51457']  # Ignore specific CVEs if needed
+
+  # Dockerfile linting
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        args: ['--ignore', 'DL3008', '--ignore', 'DL3009']
+
+  # YAML formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        types_or: [yaml, json, markdown]
+        exclude: '^(CHANGELOG\.md|.*\.yml\.j2)$'
+
+  # Shell script linting
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.5
+    hooks:
+      - id: shellcheck
+        args: ['--severity=warning']
+
+  # Secrets detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: '\.lock$|\.min\.js$|\.map$'
+
+  # Documentation linting
+  - repo: https://github.com/PyCQA/doc8
+    rev: v1.1.1
+    hooks:
+      - id: doc8
+        args: ['--max-line-length', '100']
+
+  # Commit message formatting
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.6.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  # Python docstring formatting
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        args: ['--convention=google']
+        exclude: 'tests/'
+
+  # Requirements.txt sorting
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.2
+    hooks:
+      - id: autopep8
+
+  # License header check
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.1
+    hooks:
+      - id: insert-license
+        files: \.py$
+        args:
+          - --license-filepath
+          - LICENSE_HEADER.txt
+          - --comment-style
+          - '#'
+
+  # Remove unused imports
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.2.0
+    hooks:
+      - id: autoflake
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --remove-unused-variables
+          - --remove-duplicate-keys
+          - --ignore-init-module-imports
+
+  # Python upgrade syntax
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.9.0
+    hooks:
+      - id: pyupgrade
+        args: [--py39-plus]
+
+  # Check for Python 2/3 compatibility issues
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v3.0.1
+    hooks:
+      - id: add-trailing-comma
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.35.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        exclude: 'CHANGELOG\.md'
+
+  # JSON formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        files: '\.(json|jsonc)$'
+
+  # TOML formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        files: '\.toml$'
+
+  # Local hooks for custom checks
+  - repo: local
+    hooks:
+      # Check for TODO/FIXME comments
+      - id: check-todos
+        name: Check for TODO/FIXME comments
+        entry: bash -c 'if grep -r "TODO\|FIXME" --include="*.py" mcp_server/; then echo "Found TODO/FIXME comments. Please resolve before committing."; exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      # Check for print statements in production code
+      - id: check-print-statements
+        name: Check for print statements
+        entry: bash -c 'if grep -r "print(" --include="*.py" mcp_server/ --exclude-dir=tests; then echo "Found print() statements in production code. Use logging instead."; exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      # Check for hardcoded secrets patterns
+      - id: check-hardcoded-secrets
+        name: Check for hardcoded secrets
+        entry: bash -c 'if grep -r -E "(password|secret|key|token).*=.*[\"'\''][^\"'\'']{8,}[\"'\'']" --include="*.py" mcp_server/; then echo "Potential hardcoded secrets found!"; exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      # Ensure all Python files have proper encoding
+      - id: check-python-encoding
+        name: Check Python file encoding
+        entry: bash -c 'for file in $(find mcp_server/ -name "*.py"); do if ! head -n2 "$file" | grep -q "coding.*utf-8"; then echo "$file missing UTF-8 encoding declaration"; exit 1; fi; done'
+        language: system
+        pass_filenames: false
+
+      # Check for missing __init__.py files
+      - id: check-init-files
+        name: Check for missing __init__.py files
+        entry: bash -c 'find mcp_server/ -type d -exec test -f {}/__init__.py \; -o -print | grep -v __pycache__ | while read dir; do if [ -n "$dir" ]; then echo "Missing __init__.py in $dir"; exit 1; fi; done'
+        language: system
+        pass_filenames: false
+
+# Configuration for individual tools
+default_language_version:
+  python: python3.11
+
+# Global configuration
+fail_fast: false
+default_stages: [commit, push]
+
+# CI configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [
+    # Skip these hooks in CI
+    safety,
+    bandit,
+    mypy,
+  ]
+  submodules: false

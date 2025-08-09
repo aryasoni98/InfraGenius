@@ -1,4 +1,4 @@
-version: "3.8"
+# Docker Compose file for InfraGenius development with local Ollama
 
 services:
   # MCP Server - Development
@@ -11,9 +11,10 @@ services:
       - "5678:5678" # Debug port
     environment:
       - ENVIRONMENT=development
-      - CONFIG_PATH=/app/environments/test/config.test.json
+      - CONFIG_PATH=/app/mcp_server/config.json
       - DATABASE_URL=postgresql://testuser:testpass@postgres:5432/mcptest
       - REDIS_URL=redis://redis:6379/1
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434 # Connect to host Ollama
       - PYTHONPATH=/app
       - DEBUG=true
     volumes:
@@ -27,13 +28,15 @@ services:
     networks:
       - mcp-network
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Allow connection to host services
     develop:
       watch:
         - action: sync
-          path: ../../src
-          target: /app/src
+          path: ../../mcp_server
+          target: /app/mcp_server
         - action: rebuild
-          path: ../../requirements.txt
+          path: ../../mcp_server/requirements.txt
 
   # PostgreSQL Database
   postgres:
@@ -75,21 +78,9 @@ services:
       - mcp-network
     restart: unless-stopped
 
-  # Ollama Service (Optional - for local AI)
-  ollama:
-    image: ollama/ollama:latest
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    environment:
-      - OLLAMA_HOST=0.0.0.0
-      - OLLAMA_KEEP_ALIVE=5m
-    networks:
-      - mcp-network
-    restart: unless-stopped
-    profiles:
-      - ai-local
+  # Note: Ollama should be running locally on host (not in Docker)
+  # The MCP server will connect to localhost:11434 for Ollama
+  # Start Ollama locally: ollama serve
 
   # Development Tools
 
@@ -132,8 +123,6 @@ volumes:
   postgres_data:
     driver: local
   redis_data:
-    driver: local
-  ollama_data:
     driver: local
 
 networks:

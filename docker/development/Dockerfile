@@ -1,65 +1,100 @@
-# Development Dockerfile for DevOps/SRE MCP Server
-FROM python:3.11-slim
+# InfraGenius MCP Server - Development Docker Image
+# This connects to local Ollama running on the host machine
 
-# Set labels
-LABEL maintainer="DevOps MCP Team <dev@devops-mcp.com>"
-LABEL version="1.0.0"
-LABEL description="DevOps/SRE MCP Server - Development Environment"
+FROM python:3.11-slim as base
 
 # Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONPATH=/app
-ENV ENVIRONMENT=development
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
+    wget \
     git \
     build-essential \
+    libssl-dev \
+    libffi-dev \
+    libpq-dev \
     postgresql-client \
-    redis-tools \
-    vim \
-    htop \
-    procps \
     && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
+# Create app directory and user
 WORKDIR /app
-
-# Create non-root user for development
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Install Python dependencies
-COPY requirements.txt .
+# Copy requirements and install Python dependencies
+COPY requirements.docker.txt ./
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
-
-# Install development dependencies
-RUN pip install --no-cache-dir \
-    debugpy \
-    pytest-watch \
-    black \
-    flake8 \
-    mypy \
-    pre-commit
+    pip install --no-cache-dir -r requirements.docker.txt
 
 # Copy application code
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p logs tmp uploads && \
-    chown -R appuser:appuser /app
-
-# Switch to non-root user
+# Set ownership
+RUN chown -R appuser:appuser /app
 USER appuser
 
-# Expose ports
-EXPOSE 8000 5678
+# Expose port (Ollama port not needed as it runs on host)
+EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+# Health check (checks both app and connection to host Ollama)
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health && \
+        curl -f http://host.docker.internal:11434/api/tags || exit 1
 
-# Development command with hot reload
-CMD ["python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "--wait-for-client", "server.py"]
+# Start the MCP server
+CMD ["python", "mcp_server/server.py"]
+
+# Development stage with additional tools
+FROM base as development
+
+# Switch back to root to install dev dependencies
+USER root
+
+# Install minimal development dependencies
+RUN pip install --no-cache-dir \
+    pytest>=7.4.0 \
+    black>=23.11.0 \
+    flake8>=6.1.0 \
+    ipython>=8.17.0 \
+    ipdb>=0.13.13
+
+# Development configuration
+ENV ENVIRONMENT=development \
+    DEBUG=true \
+    LOG_LEVEL=DEBUG \
+    PYTHONPATH=/app
+
+# Switch back to app user
+USER appuser
+
+# Run MCP server in development mode
+CMD ["python", "mcp_server/server.py"]
+
+# Production stage
+FROM base as production
+
+# Switch back to root to install production dependencies
+USER root
+
+# Install gunicorn for production
+RUN pip install --no-cache-dir \
+    gunicorn==21.2.0 \
+    uvicorn[standard]==0.24.0
+
+# Production configuration
+ENV ENVIRONMENT=production \
+    DEBUG=false \
+    LOG_LEVEL=INFO \
+    WORKERS=4 \
+    WORKER_CLASS=uvicorn.workers.UvicornWorker
+
+# Switch back to app user for security
+USER appuser
+
+# Run MCP server directly
+CMD ["python", "mcp_server/server.py"]

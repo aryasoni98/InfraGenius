@@ -1,0 +1,306 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "infragenius"
+version = "1.0.0"
+authors = [
+    {name = "Arya Soni", email = "arya@infragenius.ai"},
+]
+maintainers = [
+    {name = "InfraGenius Team", email = "maintainers@infragenius.ai"},
+]
+description = "AI-Powered DevOps & SRE Intelligence Platform"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Topic :: System :: Monitoring",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+keywords = [
+    "devops",
+    "sre",
+    "ai",
+    "infrastructure",
+    "automation",
+    "monitoring",
+    "cloud",
+    "kubernetes",
+    "docker",
+    "observability",
+]
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.4.0",
+    "httpx>=0.25.0",
+    "redis>=5.0.0",
+    "psycopg2-binary>=2.9.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.12.0",
+    "prometheus-client>=0.17.0",
+    "structlog>=23.1.0",
+    "typer>=0.9.0",
+    "rich>=13.6.0",
+    "pyyaml>=6.0.0",
+    "jinja2>=3.1.0",
+    "cryptography>=41.0.0",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.0",
+    "python-multipart>=0.0.6",
+    "aiofiles>=23.2.0",
+    "aioredis>=2.0.0",
+    "asyncpg>=0.28.0",
+    "tenacity>=8.2.0",
+    "cachetools>=5.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "bandit>=1.7.0",
+    "safety>=2.3.0",
+    "pre-commit>=3.4.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.2.0",
+    "mkdocstrings[python]>=0.23.0",
+]
+test = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+    "httpx>=0.25.0",
+    "testcontainers>=3.7.0",
+]
+performance = [
+    "locust>=2.16.0",
+    "memory-profiler>=0.61.0",
+    "py-spy>=0.3.14",
+]
+monitoring = [
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
+    "opentelemetry-instrumentation-fastapi>=0.41b0",
+    "jaeger-client>=4.8.0",
+]
+
+[project.urls]
+Homepage = "https://infragenius.ai"
+Documentation = "https://docs.infragenius.ai"
+Repository = "https://github.com/infragenius/infragenius"
+"Bug Tracker" = "https://github.com/infragenius/infragenius/issues"
+Changelog = "https://github.com/infragenius/infragenius/blob/main/CHANGELOG.md"
+"Security Policy" = "https://github.com/infragenius/infragenius/blob/main/SECURITY.md"
+Discussions = "https://github.com/infragenius/infragenius/discussions"
+Discord = "https://discord.gg/infragenius"
+Funding = "https://github.com/sponsors/infragenius"
+
+[project.scripts]
+infragenius = "mcp_server.cli:main"
+infragenius-server = "mcp_server.server:main"
+
+[project.entry-points."infragenius.plugins"]
+devops = "mcp_server.plugins.devops:DevOpsPlugin"
+sre = "mcp_server.plugins.sre:SREPlugin"
+cloud = "mcp_server.plugins.cloud:CloudPlugin"
+platform = "mcp_server.plugins.platform:PlatformPlugin"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mcp_server*"]
+exclude = ["tests*", "docs*", "examples*"]
+
+[tool.setuptools.package-data]
+mcp_server = [
+    "*.json",
+    "*.yaml",
+    "*.yml",
+    "templates/*.j2",
+    "static/*",
+]
+
+# Black configuration
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+src_paths = ["mcp_server", "tests"]
+
+# mypy configuration
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "ollama.*",
+    "prometheus_client.*",
+    "structlog.*",
+    "redis.*",
+    "psycopg2.*",
+]
+ignore_missing_imports = true
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=mcp_server",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=80",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "performance: marks tests as performance tests",
+    "security: marks tests as security tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["mcp_server"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/migrations/*",
+    "*/venv/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+# Bandit configuration
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+skips = ["B101", "B601"]
+
+# Flake8 configuration (in setup.cfg format)
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+    ".venv",
+    "venv",
+]
+per-file-ignores = [
+    "__init__.py:F401",
+    "tests/*:S101",
+]
+
+# Pydocstyle configuration
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D100", "D104", "D213", "D203"]
+match-dir = "(?!tests).*"
+
+# Commitizen configuration
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.0.0"
+version_files = [
+    "pyproject.toml:version",
+    "mcp_server/__init__.py:__version__",
+]
+tag_format = "v$version"
+update_changelog_on_bump = true
+bump_message = "bump: version $current_version → $new_version"

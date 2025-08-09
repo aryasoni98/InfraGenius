@@ -1,0 +1,36 @@
+# Minimal InfraGenius Docker Requirements
+# Essential packages only for Docker builds
+
+# Web Framework  
+fastapi>=0.115.0
+uvicorn[standard]>=0.24.0
+
+# HTTP Client
+httpx>=0.27.0
+
+# Data Models
+pydantic>=2.8.0
+
+# Configuration
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Async Support
+aiofiles==23.2.0
+
+# Logging
+structlog==23.2.0
+colorlog==6.8.0
+
+# Utilities
+click==8.1.7
+rich==13.7.0
+
+# JSON Processing
+orjson==3.9.10
+
+# Date/Time
+python-dateutil==2.8.2
+
+# MCP Server
+mcp>=1.0.0

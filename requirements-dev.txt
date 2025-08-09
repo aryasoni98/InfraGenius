@@ -1,0 +1,224 @@
+# Development Dependencies for InfraGenius
+# Install with: pip install -r requirements-dev.txt
+
+# Testing Framework
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pytest-benchmark>=4.0.0
+pytest-xdist>=3.3.0
+
+# Code Quality
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.0.0
+flake8-docstrings>=1.7.0
+flake8-import-order>=0.18.0
+mypy>=1.5.0
+bandit>=1.7.0
+safety>=2.3.0
+
+# Documentation
+mkdocs>=1.5.0
+mkdocs-material>=9.0.0
+mkdocstrings>=0.22.0
+mkdocstrings-python>=1.0.0
+mkdocs-mermaid2-plugin>=1.0.0
+
+# Development Tools
+pre-commit>=3.3.0
+tox>=4.6.0
+coverage>=7.2.0
+httpx>=0.24.0
+factory-boy>=3.3.0
+faker>=19.0.0
+
+# Performance Testing
+locust>=2.15.0
+memory-profiler>=0.60.0
+py-spy>=0.3.14
+
+# Database Testing
+pytest-postgresql>=5.0.0
+pytest-redis>=3.0.0
+
+# Container Testing
+testcontainers>=3.7.0
+docker>=6.1.0
+
+# API Testing
+requests-mock>=1.11.0
+responses>=0.23.0
+httpretty>=1.1.4
+
+# Load Testing
+artillery>=1.7.0
+
+# Security Testing
+semgrep>=1.30.0
+pip-audit>=2.6.0
+
+# Linting and Formatting
+pylint>=2.17.0
+autopep8>=2.0.0
+pycodestyle>=2.10.0
+pydocstyle>=6.3.0
+
+# Type Checking
+types-requests>=2.31.0
+types-redis>=4.6.0
+types-PyYAML>=6.0.0
+
+# Build Tools
+build>=0.10.0
+twine>=4.0.0
+wheel>=0.40.0
+
+# Git Hooks
+gitpython>=3.1.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Debugging
+pdbpp>=0.10.3
+ipdb>=0.13.13
+pudb>=2022.1.3
+
+# Profiling
+line-profiler>=4.0.0
+scalene>=1.5.0
+
+# Documentation Testing
+doc8>=1.1.0
+sphinx>=7.0.0
+sphinx-rtd-theme>=1.3.0
+
+# API Documentation
+openapi-spec-validator>=0.6.0
+swagger-spec-validator>=3.0.0
+
+# Configuration Validation
+jsonschema>=4.18.0
+cerberus>=1.3.4
+
+# Mocking and Fixtures
+responses>=0.23.1
+betamax>=0.8.1
+vcr.py>=4.3.1
+
+# Async Testing
+pytest-asyncio>=0.21.1
+aioresponses>=0.7.4
+
+# Database Migrations (for testing)
+alembic>=1.11.0
+
+# Monitoring and Observability Testing
+prometheus-client>=0.17.0
+opentelemetry-api>=1.19.0
+opentelemetry-sdk>=1.19.0
+
+# Cloud Provider Testing
+moto>=4.2.0  # AWS mocking
+google-cloud-storage>=2.10.0  # GCP testing
+azure-storage-blob>=12.17.0  # Azure testing
+
+# Kubernetes Testing
+kubernetes>=27.2.0
+pykube-ng>=22.9.0
+
+# CI/CD Tools
+github3.py>=4.0.0
+gitlab-python>=3.15.0
+
+# Performance Monitoring
+psutil>=5.9.0
+resource>=0.2.1
+
+# Network Testing
+httpserver>=1.1.0
+pytest-httpserver>=1.0.0
+
+# Time and Date Testing
+freezegun>=1.2.0
+time-machine>=2.10.0
+
+# Logging Testing
+loguru>=0.7.0
+structlog>=23.1.0
+
+# Serialization Testing
+msgpack>=1.0.5
+orjson>=3.9.0
+
+# Cryptography Testing
+cryptography>=41.0.0
+pycryptodome>=3.18.0
+
+# Configuration Testing
+dynaconf>=3.2.0
+pydantic>=2.0.0
+
+# CLI Testing
+click>=8.1.0
+typer>=0.9.0
+rich>=13.4.0
+
+# Email Testing (for notifications)
+mailtrap>=2.0.0
+
+# WebSocket Testing
+websockets>=11.0.0
+socketio>=5.8.0
+
+# File System Testing
+watchdog>=3.0.0
+pathlib2>=2.3.7
+
+# Concurrency Testing
+concurrent-futures>=3.1.1
+asyncio-mqtt>=0.16.0
+
+# Data Validation
+voluptuous>=0.13.1
+marshmallow>=3.20.0
+
+# Retry and Circuit Breaker Testing
+tenacity>=8.2.0
+circuitbreaker>=1.4.0
+
+# Rate Limiting Testing
+limits>=3.5.0
+slowapi>=0.1.9
+
+# Cache Testing
+diskcache>=5.6.0
+cachetools>=5.3.0
+
+# Metrics and Telemetry
+statsd>=4.0.0
+datadog>=0.47.0
+
+# Development Server
+uvicorn[standard]>=0.23.0
+gunicorn>=21.0.0
+
+# Hot Reloading
+watchfiles>=0.19.0
+python-multipart>=0.0.6
+
+# Interactive Development
+ipython>=8.14.0
+jupyter>=1.0.0
+notebook>=7.0.0
+
+# Code Analysis
+vulture>=2.7.0  # Find dead code
+radon>=6.0.0    # Code complexity
+xenon>=0.9.0    # Code complexity monitoring
+
+# License Checking
+pip-licenses>=4.3.0
+licensecheck>=2023.1.0

@@ -1,0 +1,67 @@
+# InfraGenius Core Dependencies
+# Main application requirements
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# MCP (Model Context Protocol)
+mcp>=1.0.0
+
+# HTTP Client
+httpx==0.25.2
+aiohttp==3.9.1
+
+# Data Models
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Async Support
+asyncio-mqtt==0.16.1
+aiofiles==23.2.0
+
+# Configuration
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Logging
+structlog==23.2.0
+colorlog==6.8.0
+
+# Caching
+redis==5.0.1
+diskcache==5.6.3
+
+# Database (Optional)
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+alembic==1.13.1
+
+# Monitoring
+prometheus-client==0.19.0
+opentelemetry-api==1.21.0
+opentelemetry-sdk==1.21.0
+
+# Security
+cryptography>=42.0.0
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+
+# Utilities
+click==8.1.7
+rich==13.7.0
+python-multipart==0.0.6
+
+# Date/Time
+python-dateutil==2.8.2
+
+# JSON Processing
+orjson==3.9.10
+
+# Validation
+email-validator==2.1.0
+phonenumbers==8.13.26
+
+# Performance
+ujson==5.8.0
+msgpack==1.0.7

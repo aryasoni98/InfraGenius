@@ -1,0 +1,158 @@
+name: ❓ Question
+description: Ask a question about InfraGenius usage, configuration, or best practices
+title: "[Question]: "
+labels: ["question", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about InfraGenius? We're here to help! ❓
+        
+        Before asking, please check our [documentation](https://docs.infragenius.ai) and search existing issues.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before asking your question
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have checked the documentation
+          required: true
+        - label: This is not a bug report or feature request
+
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: 📋 Question Type
+      description: What type of question is this?
+      options:
+        - "Installation and Setup"
+        - "Configuration and Customization"
+        - "Usage and Best Practices"
+        - "Performance and Optimization"
+        - "Integration with Other Tools"
+        - "Troubleshooting (not a bug)"
+        - "Architecture and Design"
+        - "Security and Compliance"
+        - "Development and Contributing"
+        - "General/Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: ❓ Your Question
+      description: What would you like to know?
+      placeholder: Please describe your question in detail...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 🔍 Context
+      description: Provide context about your use case, environment, or what you're trying to achieve
+      placeholder: |
+        - What are you trying to accomplish?
+        - What's your current setup?
+        - What have you tried so far?
+        - Any specific constraints or requirements?
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 🌍 Environment (if relevant)
+      description: If your question is environment-specific, please provide details
+      value: |
+        - OS: [e.g. Ubuntu 22.04, macOS 14.0, Windows 11]
+        - Python Version: [e.g. 3.11.5]
+        - InfraGenius Version: [e.g. 1.0.0]
+        - Installation Method: [e.g. pip, docker, source]
+        - Deployment: [e.g. local, docker, kubernetes, cloud]
+      render: markdown
+
+  - type: checkboxes
+    id: domain
+    attributes:
+      label: 🎯 Domain
+      description: Which domain does your question relate to? (select all that apply)
+      options:
+        - label: DevOps (CI/CD, Infrastructure, Automation)
+        - label: SRE (Reliability, Monitoring, Incident Response)
+        - label: Cloud (Architecture, Security, Cost Optimization)
+        - label: Platform Engineering (Developer Experience, APIs)
+        - label: General InfraGenius usage
+
+  - type: textarea
+    id: what-tried
+    attributes:
+      label: 🔄 What Have You Tried?
+      description: What steps have you already taken to solve this?
+      placeholder: |
+        - Checked documentation section X
+        - Tried configuration Y
+        - Searched for similar issues
+        - Attempted workaround Z
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: 🎯 Expected Outcome
+      description: What outcome are you hoping to achieve?
+      placeholder: I would like to be able to...
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 📝 Additional Information
+      description: Any other information that might be helpful
+      placeholder: |
+        - Screenshots or examples
+        - Configuration files (remove sensitive info)
+        - Error messages (if any)
+        - Links to relevant documentation
+        - Similar questions or discussions you've found
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: ⏰ Urgency
+      description: How urgent is this question for you?
+      options:
+        - "Low - Just curious, no rush"
+        - "Medium - Would like to know soon"
+        - "High - Blocking my current work"
+        - "Critical - Production issue or deadline"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: help-others
+    attributes:
+      label: 🤝 Community
+      description: How can you help the community?
+      options:
+        - label: I'm willing to share my solution once I find it
+        - label: I can help answer similar questions in the future
+        - label: I'd like to contribute to documentation based on this
+        - label: I can provide feedback on the answer quality
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **Thank you for your question!** 🙏
+        
+        Our community and maintainers will do their best to help you. For faster responses, consider:
+        
+        - 💬 Joining our [Discord community](https://discord.gg/infragenius)
+        - 📚 Checking our [documentation](https://docs.infragenius.ai)
+        - 🔍 Searching [GitHub Discussions](https://github.com/infragenius/infragenius/discussions)
+        
+        **For urgent production issues**, please contact: support@infragenius.ai

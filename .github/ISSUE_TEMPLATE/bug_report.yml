@@ -1,0 +1,146 @@
+name: 🐛 Bug Report
+description: File a bug report to help us improve InfraGenius
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report! 🐛
+        
+        Please search existing issues first to avoid duplicates.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your bug report
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: I have read the [Contributing Guidelines](../../CONTRIBUTING.md)
+          required: true
+        - label: I am using the latest version of InfraGenius
+          required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 🐛 Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe what happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: ✅ Expected Behavior
+      description: A clear and concise description of what you expected to happen
+      placeholder: Describe what you expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: ❌ Actual Behavior
+      description: A clear and concise description of what actually happened
+      placeholder: Describe what actually happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: 🔄 Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 🌍 Environment
+      description: Please provide details about your environment
+      value: |
+        - OS: [e.g. Ubuntu 22.04, macOS 14.0, Windows 11]
+        - Python Version: [e.g. 3.11.5]
+        - InfraGenius Version: [e.g. 1.0.0]
+        - Docker Version: [e.g. 24.0.6]
+        - Ollama Version: [e.g. 0.1.17]
+        - Installation Method: [e.g. pip, docker, source]
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 📋 Logs and Error Messages
+      description: Please copy and paste any relevant log output or error messages
+      render: shell
+      placeholder: Paste your logs here...
+
+  - type: textarea
+    id: config
+    attributes:
+      label: ⚙️ Configuration
+      description: Please share your configuration file (remove sensitive information)
+      render: json
+      placeholder: Paste your config.json here (remove API keys and secrets)...
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 Additional Context
+      description: Add any other context about the problem here
+      placeholder: |
+        - Screenshots/GIFs (if applicable)
+        - Workarounds you've tried
+        - Related issues or discussions
+        - Any other relevant information
+
+  - type: checkboxes
+    id: severity
+    attributes:
+      label: 🚨 Severity
+      description: How severe is this bug?
+      options:
+        - label: Critical - System unusable, data loss, or security vulnerability
+        - label: High - Major functionality broken, significant impact
+        - label: Medium - Some functionality impacted, workaround available
+        - label: Low - Minor issue, cosmetic problem, or enhancement
+
+  - type: checkboxes
+    id: component
+    attributes:
+      label: 🧩 Component
+      description: Which component is affected? (select all that apply)
+      options:
+        - label: Core Server
+        - label: AI/ML Models
+        - label: Authentication
+        - label: API Endpoints
+        - label: Docker/Containers
+        - label: Kubernetes
+        - label: Documentation
+        - label: Performance
+        - label: Security
+        - label: Other (specify in additional context)
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **Thank you for helping improve InfraGenius!** 🙏
+        
+        Our team will review your bug report and respond as soon as possible. For urgent security issues, please email security@infragenius.ai instead.

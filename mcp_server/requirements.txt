@@ -132,9 +132,9 @@ netaddr>=0.10.1  # Network address manipulation
 APScheduler>=3.10.4
 python-crontab>=3.0.0
 
-# File and archive handling
-zipfile2>=0.0.12
-tarfile>=0.9.0
+# File and archive handling (built-in modules: zipfile, tarfile)
+# zipfile2>=0.0.12  # Optional, using built-in zipfile instead
+# tarfile - built into Python, no external package needed
 
 # Environment and system
 python-decouple>=3.8

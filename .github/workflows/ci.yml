@@ -1,0 +1,350 @@
+name: 🚀 Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18'
+
+jobs:
+  # 🧪 Code Quality and Linting
+  lint:
+    name: 🔍 Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        
+    - name: 🎨 Check Code Formatting (Black)
+      run: black --check --diff .
+      
+    - name: 📏 Check Import Sorting (isort)
+      run: isort --check-only --diff .
+      
+    - name: 🔍 Lint Code (flake8)
+      run: flake8 .
+      
+    - name: 🔒 Security Scan (Bandit)
+      run: bandit -r mcp_server/ -f json -o bandit-report.json
+      continue-on-error: true
+      
+    - name: 📊 Upload Security Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: security-report
+        path: bandit-report.json
+
+  # 🧪 Unit Tests
+  test:
+    name: 🧪 Unit Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+        
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        
+    - name: 🧪 Run Unit Tests
+      run: |
+        pytest tests/unit/ -v --tb=short --cov=mcp_server --cov-report=xml --cov-report=html
+        
+    - name: 📊 Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        
+    - name: 📈 Upload Coverage Reports
+      uses: actions/upload-artifact@v3
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+      with:
+        name: coverage-reports
+        path: htmlcov/
+
+  # 🔧 Integration Tests
+  integration:
+    name: 🔧 Integration Tests
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_USER: testuser
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        
+    - name: 🐳 Set up Ollama
+      run: |
+        curl -fsSL https://ollama.ai/install.sh | sh
+        ollama serve &
+        sleep 10
+        ollama pull gpt-oss:latest
+        
+    - name: ⚙️ Configure Test Environment
+      run: |
+        cp mcp_server/config.json.example mcp_server/config.test.json
+        export DATABASE_URL="postgresql://testuser:testpass@localhost:5432/testdb"
+        export REDIS_URL="redis://localhost:6379/0"
+        
+    - name: 🔧 Run Integration Tests
+      run: |
+        pytest tests/integration/ -v --tb=short
+      env:
+        DATABASE_URL: postgresql://testuser:testpass@localhost:5432/testdb
+        REDIS_URL: redis://localhost:6379/0
+
+  # 🚀 Performance Tests
+  performance:
+    name: ⚡ Performance Tests
+    runs-on: ubuntu-latest
+    needs: [integration]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        
+    - name: 🐳 Set up Services
+      run: |
+        docker-compose -f docker/development/docker-compose.yml up -d
+        sleep 30
+        
+    - name: ⚡ Run Performance Tests
+      run: |
+        pytest tests/performance/ -v --tb=short --benchmark-json=benchmark.json
+        
+    - name: 📊 Upload Performance Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-results
+        path: benchmark.json
+
+  # 🐳 Docker Build Test
+  docker:
+    name: 🐳 Docker Build
+    runs-on: ubuntu-latest
+    needs: [lint]
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: 🔨 Build Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./mcp_server/Dockerfile
+        push: false
+        tags: infragenius:test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        
+    - name: 🧪 Test Docker Image
+      run: |
+        docker run --rm -d --name infragenius-test -p 8000:8000 infragenius:test
+        sleep 10
+        curl -f http://localhost:8000/health || exit 1
+        docker stop infragenius-test
+
+  # 🔒 Security Scan
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    needs: [lint]
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🔍 Run Trivy Vulnerability Scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        
+    - name: 📊 Upload Trivy Results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+        
+    - name: 🔒 Run Safety Check
+      run: |
+        pip install safety
+        safety check --json --output safety-report.json
+      continue-on-error: true
+      
+    - name: 📊 Upload Safety Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: safety-report
+        path: safety-report.json
+
+  # 📚 Documentation
+  docs:
+    name: 📚 Documentation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install mkdocs mkdocs-material mkdocstrings
+        
+    - name: 📚 Build Documentation
+      run: |
+        mkdocs build --strict
+        
+    - name: 🚀 Deploy Documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./site
+
+  # ✅ All Checks Passed
+  all-checks:
+    name: ✅ All Checks Passed
+    runs-on: ubuntu-latest
+    needs: [lint, test, integration, docker, security]
+    if: always()
+    
+    steps:
+    - name: ✅ Verify All Jobs Passed
+      run: |
+        if [[ "${{ needs.lint.result }}" == "success" && \
+              "${{ needs.test.result }}" == "success" && \
+              "${{ needs.integration.result }}" == "success" && \
+              "${{ needs.docker.result }}" == "success" && \
+              "${{ needs.security.result }}" == "success" ]]; then
+          echo "✅ All checks passed!"
+          exit 0
+        else
+          echo "❌ Some checks failed!"
+          echo "Lint: ${{ needs.lint.result }}"
+          echo "Test: ${{ needs.test.result }}"
+          echo "Integration: ${{ needs.integration.result }}"
+          echo "Docker: ${{ needs.docker.result }}"
+          echo "Security: ${{ needs.security.result }}"
+          exit 1
+        fi
+
+  # 🚀 Auto-merge Dependabot PRs
+  dependabot:
+    name: 🤖 Auto-merge Dependabot
+    runs-on: ubuntu-latest
+    needs: [all-checks]
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    
+    steps:
+    - name: 🤖 Auto-merge Dependabot PR
+      uses: ahmadnassri/action-dependabot-auto-merge@v2
+      with:
+        target: minor
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+# 📊 Workflow Status Badge
+# Add this to your README.md:
+# [![CI](https://github.com/USERNAME/REPO/workflows/🚀%20Continuous%20Integration/badge.svg)](https://github.com/USERNAME/REPO/actions)

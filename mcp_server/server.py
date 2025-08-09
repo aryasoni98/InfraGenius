@@ -17,32 +17,17 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 
 # MCP imports
-try:
-    from mcp.server import Server
-    from mcp.server.models import InitializationOptions
-    from mcp.server.stdio import stdio_server
-    from mcp.types import (
-        Resource,
-        Tool,
-        TextContent,
-        ImageContent,
-        EmbeddedResource,
-        LoggingLevel,
-    )
-except ImportError:
-    print("MCP library not found. Installing...")
-    subprocess.run([sys.executable, "-m", "pip", "install", "mcp"], check=True)
-    from mcp.server import Server
-    from mcp.server.models import InitializationOptions
-    from mcp.server.stdio import stdio_server
-    from mcp.types import (
-        Resource,
-        Tool,
-        TextContent,
-        ImageContent,
-        EmbeddedResource,
-        LoggingLevel,
-    )
+from mcp.server import Server
+from mcp.server.models import InitializationOptions
+from mcp.server.stdio import stdio_server
+from mcp.types import (
+    Resource,
+    Tool,
+    TextContent,
+    ImageContent,
+    EmbeddedResource,
+    LoggingLevel,
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

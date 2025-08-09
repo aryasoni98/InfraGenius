@@ -1,0 +1,181 @@
+{
+  "server": {
+    "name": "InfraGenius Local Development",
+    "host": "127.0.0.1",
+    "port": 8000,
+    "debug": true,
+    "reload": true,
+    "workers": 1,
+    "log_level": "INFO"
+  },
+  "ollama": {
+    "base_url": "http://127.0.0.1:11434",
+    "model": "gpt-oss:latest",
+    "timeout": 300,
+    "max_retries": 3,
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "stream": true,
+    "keep_alive": "5m",
+    "options": {
+      "num_ctx": 4096,
+      "num_gpu": -1,
+      "num_thread": 0,
+      "use_mlock": true,
+      "use_mmap": true
+    }
+  },
+  "domains": {
+    "devops": {
+      "enabled": true,
+      "model": "gpt-oss:latest",
+      "expertise_level": "senior",
+      "specializations": [
+        "ci_cd",
+        "infrastructure_as_code", 
+        "automation",
+        "monitoring",
+        "containerization",
+        "orchestration"
+      ],
+      "context_window": 4096,
+      "system_prompt": "You are a senior DevOps engineer with extensive experience in CI/CD, infrastructure automation, and cloud platforms."
+    },
+    "sre": {
+      "enabled": true,
+      "model": "gpt-oss:latest",
+      "expertise_level": "principal",
+      "specializations": [
+        "reliability_engineering",
+        "incident_response",
+        "observability",
+        "slo_management",
+        "capacity_planning",
+        "disaster_recovery"
+      ],
+      "context_window": 4096,
+      "system_prompt": "You are a principal SRE with deep expertise in system reliability, incident response, and observability."
+    },
+    "cloud": {
+      "enabled": true,
+      "model": "gpt-oss:latest",
+      "expertise_level": "architect",
+      "platforms": ["aws", "azure", "gcp", "kubernetes", "openshift"],
+      "specializations": [
+        "architecture_design",
+        "security",
+        "cost_optimization",
+        "migration",
+        "multi_cloud"
+      ],
+      "context_window": 4096,
+      "system_prompt": "You are a cloud architect with expertise in multi-cloud strategies, security, and cost optimization."
+    },
+    "platform": {
+      "enabled": true,
+      "model": "gpt-oss:latest",
+      "expertise_level": "staff",
+      "specializations": [
+        "developer_experience",
+        "api_design",
+        "internal_tools",
+        "platform_engineering",
+        "self_service"
+      ],
+      "context_window": 4096,
+      "system_prompt": "You are a staff platform engineer focused on developer experience and internal tooling."
+    }
+  },
+  "features": {
+    "caching": {
+      "enabled": true,
+      "type": "memory",
+      "ttl": 3600,
+      "max_size": 1000,
+      "compression": true
+    },
+    "rate_limiting": {
+      "enabled": false,
+      "requests_per_minute": 60,
+      "burst_size": 10
+    },
+    "authentication": {
+      "enabled": false,
+      "type": "none",
+      "jwt_secret": "your-secret-key-here",
+      "token_expiry": 3600
+    },
+    "monitoring": {
+      "enabled": true,
+      "metrics": true,
+      "health_checks": true,
+      "prometheus": {
+        "enabled": false,
+        "port": 9090,
+        "path": "/metrics"
+      }
+    },
+    "logging": {
+      "level": "INFO",
+      "format": "json",
+      "file": "logs/infragenius.log",
+      "max_size": "10MB",
+      "backup_count": 5,
+      "structured": true
+    }
+  },
+  "development": {
+    "auto_reload": true,
+    "debug_mode": true,
+    "verbose_logging": false,
+    "cors_enabled": true,
+    "cors_origins": [
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "http://localhost:8080",
+      "http://127.0.0.1:8080"
+    ],
+    "api_docs": {
+      "enabled": true,
+      "swagger_ui": true,
+      "redoc": true,
+      "openapi_url": "/openapi.json"
+    },
+    "profiling": {
+      "enabled": false,
+      "profiler": "py-spy",
+      "output_dir": "profiles/"
+    }
+  },
+  "security": {
+    "cors": {
+      "allow_origins": ["*"],
+      "allow_methods": ["GET", "POST", "PUT", "DELETE"],
+      "allow_headers": ["*"],
+      "allow_credentials": false
+    },
+    "headers": {
+      "x_frame_options": "DENY",
+      "x_content_type_options": "nosniff",
+      "x_xss_protection": "1; mode=block",
+      "strict_transport_security": "max-age=31536000; includeSubDomains"
+    }
+  },
+  "integrations": {
+    "cursor": {
+      "enabled": true,
+      "mcp_server": true,
+      "tools": ["analyze", "explain", "generate", "troubleshoot"],
+      "prompts": ["devops_analysis", "sre_incident", "cloud_architecture"]
+    },
+    "vscode": {
+      "enabled": true,
+      "extension_id": "infragenius.vscode-extension"
+    },
+    "cli": {
+      "enabled": true,
+      "default_domain": "devops",
+      "interactive_mode": true
+    }
+  }
+}

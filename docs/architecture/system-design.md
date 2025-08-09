@@ -485,7 +485,7 @@ graph TB
     subgraph "Application Metrics"
         APP_METRICS[Application Metrics]
         CUSTOM_METRICS[Custom Metrics]
-        BUSINESS_METRICS[Business Metrics]
+        SYSTEM_METRICS[System Metrics]
     end
 
     subgraph "Infrastructure Metrics"
@@ -529,7 +529,7 @@ graph TB
     %% Application Metrics
     style APP_METRICS fill:#e8f5e8,stroke:#4caf50,stroke-width:3px
     style CUSTOM_METRICS fill:#c8e6c9,stroke:#388e3c,stroke-width:2px
-    style BUSINESS_METRICS fill:#a5d6a7,stroke:#2e7d32,stroke-width:2px
+    style SYSTEM_METRICS fill:#a5d6a7,stroke:#2e7d32,stroke-width:2px
     
     %% Infrastructure Metrics
     style SYSTEM_METRICS fill:#e3f2fd,stroke:#2196f3,stroke-width:3px
@@ -753,4 +753,4 @@ graph LR
 - **Recovery Point**: < 15 minutes
 - **Error Rate**: < 0.1%
 
-This architecture provides a solid foundation for a scalable, reliable, and maintainable DevOps/SRE MCP Server that can grow with user demand and business requirements.
+This architecture provides a solid foundation for a scalable, reliable, and maintainable DevOps/SRE MCP Server that can grow with user demand and community requirements.

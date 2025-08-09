@@ -1,0 +1,205 @@
+name: 💡 Feature Request
+description: Suggest a new feature or enhancement for InfraGenius
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! 💡
+        
+        Please search existing issues first to avoid duplicates.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your feature request
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: I have read the [Contributing Guidelines](../../CONTRIBUTING.md)
+          required: true
+        - label: This feature aligns with InfraGenius's mission and goals
+          required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: 💡 Feature Description
+      description: A clear and concise description of the feature you'd like to see
+      placeholder: Describe the feature you want...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: 🎯 Problem Statement
+      description: What problem does this feature solve? What's your use case?
+      placeholder: |
+        As a [type of user], I want [goal/desire] so that [benefit/value].
+        
+        Currently, I have to [current workflow/workaround]...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: ✨ Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: |
+        I would like to see...
+        
+        This could work by...
+        
+        The user interface could...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: Describe any alternative solutions or features you've considered
+      placeholder: |
+        Alternative 1: ...
+        Alternative 2: ...
+        
+        Why these don't work as well...
+
+  - type: checkboxes
+    id: feature-type
+    attributes:
+      label: 🏷️ Feature Type
+      description: What type of feature is this? (select all that apply)
+      options:
+        - label: New AI/ML capability or model
+        - label: API enhancement or new endpoint
+        - label: User interface improvement
+        - label: Performance optimization
+        - label: Security enhancement
+        - label: Integration with external tools
+        - label: Documentation improvement
+        - label: Developer experience improvement
+        - label: Monitoring and observability
+        - label: Configuration and deployment
+
+  - type: checkboxes
+    id: domain
+    attributes:
+      label: 🎯 Domain
+      description: Which domain does this feature primarily relate to?
+      options:
+        - label: DevOps (CI/CD, Infrastructure, Automation)
+        - label: SRE (Reliability, Monitoring, Incident Response)
+        - label: Cloud (Architecture, Security, Cost Optimization)
+        - label: Platform Engineering (Developer Experience, APIs)
+        - label: General/Cross-cutting
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 📊 Priority
+      description: How important is this feature to you?
+      options:
+        - "Low - Nice to have"
+        - "Medium - Would improve my workflow"
+        - "High - Important for my use case"
+        - "Critical - Blocking my adoption/usage"
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: 📖 User Stories
+      description: Provide specific user stories or scenarios where this feature would be valuable
+      placeholder: |
+        User Story 1:
+        As a DevOps engineer, I want to... so that I can...
+        
+        User Story 2:
+        As an SRE, I need to... because...
+        
+        User Story 3:
+        As a platform engineer, it would help if...
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: ✅ Acceptance Criteria
+      description: What would make this feature complete and successful?
+      placeholder: |
+        - [ ] Feature does X
+        - [ ] User can perform Y
+        - [ ] System responds with Z
+        - [ ] Performance meets requirement A
+        - [ ] Security requirement B is satisfied
+
+  - type: textarea
+    id: mockups-examples
+    attributes:
+      label: 🎨 Mockups and Examples
+      description: |
+        Share any mockups, wireframes, API examples, or references to similar features in other tools
+      placeholder: |
+        API Example:
+        ```json
+        {
+          "endpoint": "/api/v1/new-feature",
+          "method": "POST",
+          "payload": { ... }
+        }
+        ```
+        
+        Similar features in other tools:
+        - Tool X has feature Y that works like...
+        - Reference: https://example.com/feature
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: ⚙️ Technical Considerations
+      description: Any technical aspects, constraints, or implementation ideas you'd like to share
+      placeholder: |
+        - This might require integration with...
+        - Could impact performance by...
+        - Security considerations include...
+        - Backward compatibility concerns...
+
+  - type: checkboxes
+    id: implementation-willingness
+    attributes:
+      label: 🤝 Implementation
+      description: Are you willing to help implement this feature?
+      options:
+        - label: I'd like to work on this feature myself
+        - label: I can help with testing and feedback
+        - label: I can provide domain expertise and requirements
+        - label: I can help with documentation
+        - label: I prefer to let the maintainers implement this
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 Additional Context
+      description: Add any other context, links, or information about the feature request
+      placeholder: |
+        - Related discussions or issues
+        - Industry standards or best practices
+        - Timeline considerations
+        - Business impact or value
+        - Any other relevant information
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **Thank you for your feature suggestion!** 🙏
+        
+        Our team will review your request and provide feedback. Popular features with clear use cases and community support are more likely to be prioritized for implementation.

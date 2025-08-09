@@ -1,9 +1,23 @@
 # InfraGenius - AI-Powered DevOps & SRE Intelligence Platform
 
+<div align="center">
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/infragenius/infragenius/workflows/CI/badge.svg)](https://github.com/infragenius/infragenius/actions)
+[![Coverage](https://codecov.io/gh/infragenius/infragenius/branch/main/graph/badge.svg)](https://codecov.io/gh/infragenius/infragenius)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Compatible-326CE5.svg)](https://kubernetes.io)
-[![Open Source](https://img.shields.io/badge/Open%20Source-❤️-red.svg)](https://github.com)
+[![Security](https://img.shields.io/badge/Security-A+-green.svg)](SECURITY.md)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+**🚀 Transform your DevOps operations with AI-powered expertise**
+
+[📚 Documentation](https://infragenius.github.io/infragenius) • 
+[🚀 Quick Start](#-quick-start) • 
+[💬 Community](https://discord.gg/infragenius) • 
+[🤝 Contributing](CONTRIBUTING.md)
+
+</div>
 
 ## 🎯 Overview
 
@@ -11,13 +25,13 @@
 
 ### 🌟 Key Features
 
-- 🤖 **AI-Powered Analysis**: Advanced DevOps/SRE expertise using fine-tuned models
+- 🤖 **AI-Powered Analysis**: Advanced DevOps/SRE expertise using open source models (gpt-oss:latest)
+- 🏠 **Local Development**: Optimized for local development with Ollama - no cloud dependencies
+- 🎯 **Cursor Integration**: Works as MCP server with Cursor for seamless AI assistance
 - ⚡ **High Performance**: Sub-second response times with intelligent caching
-- 🔒 **Enterprise Security**: JWT authentication, rate limiting, and compliance ready
-- 📊 **Complete Observability**: Prometheus metrics, Grafana dashboards, distributed tracing
-- 🚀 **Auto-Scaling**: Kubernetes-native with HPA and resource optimization
-- 🌍 **Multi-Cloud Ready**: Deploy on AWS, GCP, Azure, or on-premises
-- 🔧 **One-Click Deployment**: Automated setup for any environment
+- 🔓 **Open Source**: MIT licensed, community-driven development
+- 📊 **Multiple Domains**: DevOps, SRE, Cloud Architecture, Platform Engineering expertise
+- 🛠️ **Developer Friendly**: Comprehensive docs, examples, and development tools
 
 ## 🏗️ Architecture Overview
 
@@ -183,19 +197,243 @@ InfraGenius/
 
 ## 🚀 Quick Start
 
-### One-Click Local Setup
+> **🎯 Focus**: InfraGenius is currently optimized for **local development** with Ollama and open source models. This is perfect for learning, contributing, and building amazing DevOps/SRE solutions locally!
+
+### ⚡ One-Click Local Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/infragenius.git
+git clone https://github.com/your-username/infragenius.git
 cd infragenius
 
-# One-click setup (auto-detects your system)
-./scripts/setup/quick-start.sh
+# 🚀 One-click setup (installs everything automatically)
+./scripts/quick-local-setup.sh
 
-# Access your local instance
-open http://localhost:8080
+# 🎉 That's it! Server will start automatically
+# 📊 Health check: http://localhost:8000/health
+# 📚 API docs: http://localhost:8000/docs
 ```
+
+### 🛠️ Manual Setup (Step by Step)
+
+#### 1. **Install Ollama** 
+```bash
+# macOS
+brew install ollama
+
+# Linux
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Windows
+winget install ollama
+```
+
+#### 2. **Start Ollama & Download Model**
+```bash
+# Start Ollama service
+ollama serve
+
+# Download AI model (in new terminal)
+ollama pull gpt-oss:latest
+
+# Verify model is ready
+ollama list
+```
+
+#### 3. **Setup InfraGenius**
+```bash
+# Create Python environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+# Create configuration
+cp mcp_server/config.json.example mcp_server/config.json
+
+# Start InfraGenius
+python mcp_server/server.py
+```
+
+#### 4. **Test Your Setup**
+```bash
+# Test API health
+curl http://localhost:8000/health
+
+# Test AI analysis
+curl -X POST http://localhost:8000/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "My Kubernetes pods are crashing with OOMKilled errors", 
+    "domain": "devops",
+    "context": "Production cluster on AWS EKS"
+  }'
+```
+
+### 🎯 Cursor Integration (MCP Server)
+
+InfraGenius works as an **MCP (Model Context Protocol) server** with Cursor, giving you a specialized DevOps/SRE AI assistant directly in your IDE!
+
+#### **🚀 Quick Setup**
+
+```bash
+# 1. Setup Cursor integration
+make cursor-setup
+
+# 2. Install MCP dependency
+source venv/bin/activate
+pip install mcp
+
+# 3. Test the integration
+python -m mcp_server.cursor_integration
+```
+
+#### **⚙️ Cursor Configuration**
+
+Add InfraGenius to your Cursor MCP configuration file at `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "infragenius": {
+      "command": "<file_path>/InfraGenius/venv/bin/python",
+      "args": [
+        "-m", "mcp_server.cursor_integration"
+      ],
+      "cwd": "<file_path>/InfraGenius",
+      "env": {
+        "OLLAMA_BASE_URL": "http://localhost:11434",
+        "OLLAMA_MODEL": "gpt-oss:latest",
+        "PYTHONPATH": "<file_path>/InfraGenius"
+      }
+    }
+  }
+}
+```
+
+**📝 Replace `YOUR_USERNAME` with your actual username!**
+
+**💡 Quick Copy**: Use the template at [`examples/cursor-mcp-template.json`](examples/cursor-mcp-template.json) and update the paths.
+
+#### **🔄 Adding to Existing MCP Configuration**
+
+If you already have other MCP servers configured, just add the `infragenius` entry to your existing `mcpServers` object:
+
+```json
+{
+  "mcpServers": {
+    "existing-server": {
+      "command": "some-other-mcp-server",
+      "args": ["..."]
+    },
+    "infragenius": {
+      "command": "<file_path>/InfraGenius/venv/bin/python",
+      "args": ["-m", "mcp_server.cursor_integration"],
+      "cwd": "<file_path>/InfraGenius",
+      "env": {
+        "OLLAMA_BASE_URL": "http://localhost:11434",
+        "OLLAMA_MODEL": "gpt-oss:latest"
+      }
+    }
+  }
+}
+```
+
+#### **🎯 Usage in Cursor**
+
+Once configured, use InfraGenius tools directly in Cursor:
+
+```javascript
+// DevOps Issue Analysis
+@infragenius analyze_devops_issue {
+  "prompt": "My Kubernetes pods are crashing with OOMKilled",
+  "context": "Production EKS cluster with 50+ microservices",
+  "urgency": "high"
+}
+
+// SRE Incident Response  
+@infragenius analyze_sre_incident {
+  "incident": "Database connection pool exhausted",
+  "severity": "critical",
+  "affected_services": "user-service, payment-service"
+}
+
+// Cloud Architecture Review
+@infragenius review_cloud_architecture {
+  "architecture": "3-tier web app on AWS with RDS and ElastiCache",
+  "cloud_provider": "aws", 
+  "focus_area": "cost"
+}
+
+// Generate Configurations
+@infragenius generate_config {
+  "tool": "kubernetes",
+  "requirements": "Redis cluster with persistence and monitoring",
+  "environment": "production"
+}
+
+// Log Analysis
+@infragenius explain_logs {
+  "logs": "ERROR: Connection timeout after 30s in database pool",
+  "log_type": "application"
+}
+
+// Platform Engineering Advice
+@infragenius platform_engineering_advice {
+  "challenge": "Improve developer onboarding and reduce time-to-first-commit",
+  "team_size": "30 developers",
+  "tech_stack": "Node.js, React, Kubernetes, PostgreSQL"
+}
+```
+
+#### **🛠️ Available Tools**
+
+| Tool | Purpose | Best For |
+|------|---------|----------|
+| 🔧 `analyze_devops_issue` | DevOps problem solving | CI/CD issues, deployment problems |
+| 🚨 `analyze_sre_incident` | Incident response guidance | Outages, performance issues, alerts |
+| ☁️ `review_cloud_architecture` | Architecture analysis | Cost optimization, security, scaling |
+| ⚙️ `generate_config` | Configuration generation | K8s manifests, Docker, Terraform |
+| 📋 `explain_logs` | Log analysis & debugging | Error investigation, troubleshooting |
+| 🏗️ `platform_engineering_advice` | Platform guidance | Developer experience, internal tools |
+
+#### **✅ Verification Steps**
+
+1. **Restart Cursor** completely after updating mcp.json
+2. **Check MCP Status** in Cursor's settings/extensions
+3. **Test Integration**: Type `@infragenius` in any chat
+4. **Verify Tools**: You should see tool suggestions appear
+
+#### **🔧 Troubleshooting**
+
+**If `@infragenius` doesn't appear:**
+
+```bash
+# Check if integration works
+cd /path/to/InfraGenius
+source venv/bin/activate
+python -c "import mcp_server.cursor_integration; print('✅ Integration OK')"
+
+# Verify Ollama is running
+curl http://localhost:11434/api/tags
+
+# Check your paths in mcp.json are correct
+```
+
+**Common Issues:**
+- ❌ **Wrong paths** in mcp.json → Update to your actual paths
+- ❌ **Virtual env not activated** → Use full path to venv/bin/python
+- ❌ **Ollama not running** → Start with `ollama serve`
+- ❌ **Model not available** → Download with `ollama pull gpt-oss:latest`
+
+#### **💡 Pro Tips**
+
+- **Combine with other MCP servers** - InfraGenius works alongside other AI models
+- **Use specific tools** - Each tool is optimized for different scenarios
+- **Provide context** - More context = better, more actionable responses
+- **Save configurations** - Generated configs can be saved directly to files
 
 ### Docker Deployment
 
@@ -220,60 +458,7 @@ kubectl apply -f kubernetes/staging/
 kubectl apply -f kubernetes/production/
 ```
 
-## 💰 Pricing & Versions
 
-### 🆓 Open Source Version (FREE)
-
-**Perfect for individual developers and small teams**
-
-- ✅ Core DevOps/SRE AI analysis
-- ✅ Basic monitoring and metrics
-- ✅ Community support
-- ✅ Self-hosted deployment
-- ✅ Up to 100 requests/month
-- ✅ Standard response time
-- ✅ Basic integrations
-
-```bash
-# Deploy open source version
-./scripts/setup/deploy-open-source.sh
-```
-
-### 💎 Professional Version ($10/month)
-
-**Enhanced features for growing teams**
-
-- ✅ **Everything in Open Source**
-- 🚀 **Unlimited requests**
-- ⚡ **Priority processing** (2x faster)
-- 📊 **Advanced analytics** and reporting
-- 🔧 **Premium integrations** (Slack, Teams, PagerDuty)
-- 🎯 **Custom fine-tuning** for your infrastructure
-- 📞 **Email support** (24h response)
-- 🔒 **Advanced security** features
-- 📈 **Performance optimization** tools
-- 🌍 **Multi-region** deployment support
-
-```bash
-# Deploy professional version
-./scripts/setup/deploy-professional.sh --license-key=YOUR_KEY
-```
-
-### 🏢 Enterprise Version (Custom Pricing)
-
-**Full-scale enterprise deployment**
-
-- ✅ **Everything in Professional**
-- 🏢 **On-premises deployment**
-- 🔐 **SSO integration** (SAML, OIDC)
-- 📞 **Dedicated support** (4h SLA)
-- 🎨 **Custom branding**
-- 📋 **Compliance** (SOC2, HIPAA, PCI-DSS)
-- 🔧 **Custom integrations**
-- 📊 **Executive dashboards**
-- 🚀 **Dedicated infrastructure**
-
-[Contact Sales](mailto:sales@devops-mcp.com) for enterprise pricing.
 
 ## 🌍 Environment Management
 
@@ -537,31 +722,15 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📄 License
 
-### Open Source License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### Commercial License
-Commercial features require a valid license key. See [COMMERCIAL_LICENSE](COMMERCIAL_LICENSE) for terms.
 
 ## 🆘 Support
 
-### Community Support (Free)
-- 📚 [Documentation](https://docs.infragenius.ai)
-- 💬 [Discord Community](https://discord.gg/infragenius)
-- 🐛 [GitHub Issues](https://github.com/your-org/infragenius/issues)
-- 📧 [Community Forum](https://community.infragenius.ai)
-
-### Professional Support ($10/month)
-- ✉️ **Email Support**: support@infragenius.ai (24h response)
-- 📞 **Priority Support**: Dedicated support queue
-- 🔧 **Configuration Help**: Deployment and setup assistance
-- 📊 **Performance Optimization**: Tuning recommendations
-
-### Enterprise Support (Custom)
-- 📞 **Phone Support**: Direct access to engineering team
-- 🚀 **Dedicated Success Manager**: Personal account management
-- 🔧 **Custom Integration**: Tailored solutions
-- 📈 **SLA Guarantees**: 99.9% uptime commitment
+### Community Support
+- 📚 [Documentation](docs/)
+- 💬 [GitHub Discussions](https://github.com/aryasoni98/infragenius/discussions)
+- 🐛 [GitHub Issues](https://github.com/aryasoni98/infragenius/issues)
+- 🤝 [Contributing Guide](CONTRIBUTING.md)
 
 ## 🎯 Roadmap
 
@@ -578,34 +747,25 @@ Commercial features require a valid license key. See [COMMERCIAL_LICENSE](COMMER
 - [ ] Compliance automation
 
 ### Q3 2024
-- [ ] Multi-tenant architecture
+- [ ] Multi-model architecture
 - [ ] Advanced analytics
 - [ ] Custom model training
-- [ ] Enterprise integrations
+- [ ] Enhanced integrations
 
 ### Q4 2024
 - [ ] Edge deployment
 - [ ] IoT integration
 - [ ] Advanced security features
-- [ ] Global expansion
+- [ ] Performance improvements
 
 ## 📊 Performance Benchmarks
 
-| Metric | Open Source | Professional | Enterprise |
-|--------|-------------|-------------|------------|
-| **Response Time** | <2s | <1s | <500ms |
-| **Throughput** | 100 req/s | 500 req/s | 2000+ req/s |
-| **Uptime** | 99.5% | 99.9% | 99.99% |
-| **Support Response** | Community | 24h | 4h |
-
-## 🏆 Awards & Recognition
-
-- 🥇 **Best DevOps Tool 2024** - DevOps Weekly
-- 🏆 **Innovation Award** - Cloud Native Computing Foundation
-- ⭐ **5-star rating** - G2 Reviews
-- 🎖️ **Top 10 SRE Tools** - SRE Weekly
-
----
+| Metric | Performance |
+|--------|------------|
+| **Response Time** | <2s |
+| **Throughput** | 100+ req/s |
+| **Uptime** | 99.5%+ |
+| **Support Response** | Community-driven |
 
 ## 🚀 Get Started Today!
 
