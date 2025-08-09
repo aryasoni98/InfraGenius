@@ -61,9 +61,9 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 If you experience or witness unacceptable behavior, or have any other concerns, please report it by contacting the community team at:
 
-- **Email**: [conduct@infragenius.ai](mailto:conduct@infragenius.ai)
+- **Email**: [conduct@#](mailto:conduct@#)
 - **Discord**: Direct message to @CommunityModerator
-- **Anonymous Form**: [Report Form](https://forms.infragenius.ai/conduct-report)
+- **Anonymous Form**: [Report Form](https://forms.#/conduct-report)
 
 ### What to Include
 
@@ -200,8 +200,8 @@ Community Impact Guidelines were inspired by [Mozilla's code of conduct enforcem
 
 For questions about this Code of Conduct, please contact:
 
-- **Community Team**: [conduct@infragenius.ai](mailto:conduct@infragenius.ai)
-- **Project Leads**: [leads@infragenius.ai](mailto:leads@infragenius.ai)
+- **Community Team**: [conduct@#](mailto:conduct@#)
+- **Project Leads**: [leads@#](mailto:leads@#)
 - **Discord Moderators**: Available in our [Discord server](https://discord.gg/infragenius)
 
 ---

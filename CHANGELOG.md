@@ -134,7 +134,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## Security
 
-Security vulnerabilities should be reported to [security@infragenius.ai](mailto:security@infragenius.ai).
+Security vulnerabilities should be reported to [security@#](mailto:security@#).
 See our [Security Policy](SECURITY.md) for details.
 
 ## License

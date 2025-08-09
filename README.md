@@ -773,7 +773,7 @@ Choose your deployment option and get started in minutes:
 
 ```bash
 # Quick local setup
-curl -sSL https://get.infragenius.ai | bash
+curl -sSL https://get.# | bash
 
 # Or manual setup
 git clone https://github.com/your-org/infragenius.git
@@ -787,8 +787,8 @@ cd infragenius
 
 <div align="center">
   <strong>Made with ❤️ for the DevOps community</strong><br>
-  <a href="https://infragenius.ai">Website</a> •
-  <a href="https://docs.infragenius.ai">Documentation</a> •
-  <a href="https://community.infragenius.ai">Community</a> •
-  <a href="mailto:hello@infragenius.ai">Contact</a>
+  <a href="https://#">Website</a> •
+  <a href="https://docs.#">Documentation</a> •
+  <a href="https://community.#">Community</a> •
+  <a href="mailto:hello@#">Contact</a>
 </div>

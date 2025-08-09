@@ -3,11 +3,11 @@ name: 🚀 Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release (e.g., v1.0.0)'
+        description: "Version to release (e.g., v1.0.0)"
         required: true
         type: string
 
@@ -23,79 +23,79 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-    
+
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        
-    - name: 🏷️ Get Version
-      id: version
-      run: |
-        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-          VERSION="${{ github.event.inputs.version }}"
-        else
-          VERSION=${GITHUB_REF#refs/tags/}
-        fi
-        echo "version=${VERSION}" >> $GITHUB_OUTPUT
-        echo "Version: ${VERSION}"
-        
-    - name: 📝 Generate Changelog
-      id: changelog
-      run: |
-        # Generate changelog from commits since last tag
-        PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
-        if [[ -n "$PREVIOUS_TAG" ]]; then
-          CHANGELOG=$(git log --pretty=format:"- %s (%h)" ${PREVIOUS_TAG}..HEAD)
-        else
-          CHANGELOG=$(git log --pretty=format:"- %s (%h)" --max-count=20)
-        fi
-        
-        # Save changelog to file
-        cat > CHANGELOG.txt << 'EOF'
-        ## What's Changed
-        
-        ${CHANGELOG}
-        
-        ## 🚀 Installation
-        
-        ### Docker
-        ```bash
-        docker pull ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
-        ```
-        
-        ### Python Package
-        ```bash
-        pip install infragenius==${{ steps.version.outputs.version }}
-        ```
-        
-        ### From Source
-        ```bash
-        git clone https://github.com/${{ github.repository }}.git
-        cd infragenius
-        git checkout ${{ steps.version.outputs.version }}
-        pip install -e .
-        ```
-        
-        ## 📊 Checksums
-        
-        See the assets below for SHA256 checksums.
-        
-        **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${{ steps.version.outputs.version }}
-        EOF
-        
-    - name: 🏷️ Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.version.outputs.version }}
-        release_name: Release ${{ steps.version.outputs.version }}
-        body_path: CHANGELOG.txt
-        draft: false
-        prerelease: ${{ contains(steps.version.outputs.version, 'alpha') || contains(steps.version.outputs.version, 'beta') || contains(steps.version.outputs.version, 'rc') }}
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🏷️ Get Version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/}
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Version: ${VERSION}"
+
+      - name: 📝 Generate Changelog
+        id: changelog
+        run: |
+          # Generate changelog from commits since last tag
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+          if [[ -n "$PREVIOUS_TAG" ]]; then
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" ${PREVIOUS_TAG}..HEAD)
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --max-count=20)
+          fi
+
+          # Save changelog to file
+          cat > CHANGELOG.txt << 'EOF'
+          ## What's Changed
+
+          ${CHANGELOG}
+
+          ## 🚀 Installation
+
+          ### Docker
+          ```bash
+          docker pull ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
+          ```
+
+          ### Python Package
+          ```bash
+          pip install infragenius==${{ steps.version.outputs.version }}
+          ```
+
+          ### From Source
+          ```bash
+          git clone https://github.com/${{ github.repository }}.git
+          cd infragenius
+          git checkout ${{ steps.version.outputs.version }}
+          pip install -e .
+          ```
+
+          ## 📊 Checksums
+
+          See the assets below for SHA256 checksums.
+
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${{ steps.version.outputs.version }}
+          EOF
+
+      - name: 🏷️ Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          body_path: CHANGELOG.txt
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, 'alpha') || contains(steps.version.outputs.version, 'beta') || contains(steps.version.outputs.version, 'rc') }}
 
   # 🐳 Build and Push Docker Images
   docker:
@@ -105,116 +105,116 @@ jobs:
     strategy:
       matrix:
         platform: [linux/amd64, linux/arm64]
-    
+
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
-      
-    - name: 🐳 Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-      
-    - name: 🔑 Log in to Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: 📝 Extract Metadata
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: |
-          type=ref,event=tag
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=semver,pattern={{major}}
-          type=raw,value=latest,enable={{is_default_branch}}
-          
-    - name: 🔨 Build and Push
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: ./mcp_server/Dockerfile
-        platforms: ${{ matrix.platform }}
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-        build-args: |
-          VERSION=${{ needs.create-release.outputs.version }}
-          BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          VCS_REF=${{ github.sha }}
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔑 Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📝 Extract Metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: 🔨 Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./mcp_server/Dockerfile
+          platforms: ${{ matrix.platform }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            VERSION=${{ needs.create-release.outputs.version }}
+            BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+            VCS_REF=${{ github.sha }}
 
   # 📦 Build Python Package
   python-package:
     name: 📦 Build Python Package
     runs-on: ubuntu-latest
     needs: create-release
-    
+
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
-      
-    - name: 🐍 Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        
-    - name: 📦 Install Build Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install build twine
-        
-    - name: 🏗️ Build Package
-      run: |
-        python -m build
-        
-    - name: ✅ Check Package
-      run: |
-        twine check dist/*
-        
-    - name: 📊 Generate Checksums
-      run: |
-        cd dist
-        sha256sum * > SHA256SUMS
-        
-    - name: 📤 Upload to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
-        
-    - name: 📎 Upload Release Assets
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./dist/infragenius-${{ needs.create-release.outputs.version }}.tar.gz
-        asset_name: infragenius-${{ needs.create-release.outputs.version }}.tar.gz
-        asset_content_type: application/gzip
-        
-    - name: 📎 Upload Wheel
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./dist/infragenius-${{ needs.create-release.outputs.version }}-py3-none-any.whl
-        asset_name: infragenius-${{ needs.create-release.outputs.version }}-py3-none-any.whl
-        asset_content_type: application/zip
-        
-    - name: 📎 Upload Checksums
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./dist/SHA256SUMS
-        asset_name: SHA256SUMS
-        asset_content_type: text/plain
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Install Build Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: 🏗️ Build Package
+        run: |
+          python -m build
+
+      - name: ✅ Check Package
+        run: |
+          twine check dist/*
+
+      - name: 📊 Generate Checksums
+        run: |
+          cd dist
+          sha256sum * > SHA256SUMS
+
+      - name: 📤 Upload to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: 📎 Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/infragenius-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_name: infragenius-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: 📎 Upload Wheel
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/infragenius-${{ needs.create-release.outputs.version }}-py3-none-any.whl
+          asset_name: infragenius-${{ needs.create-release.outputs.version }}-py3-none-any.whl
+          asset_content_type: application/zip
+
+      - name: 📎 Upload Checksums
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/SHA256SUMS
+          asset_name: SHA256SUMS
+          asset_content_type: text/plain
 
   # 📋 Build Binary Releases
   binary-releases:
@@ -233,98 +233,98 @@ jobs:
           - os: macos-latest
             target: macos-x64
             artifact_name: infragenius-macos-x64
-    
+
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
-      
-    - name: 🐍 Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        
-    - name: 📦 Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pyinstaller
-        pip install -r requirements.txt
-        
-    - name: 🔨 Build Binary
-      run: |
-        pyinstaller --onefile --name ${{ matrix.artifact_name }} mcp_server/server.py
-        
-    - name: 📊 Generate Checksum
-      run: |
-        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          certutil -hashfile dist/${{ matrix.artifact_name }} SHA256 > dist/${{ matrix.artifact_name }}.sha256
-        else
-          sha256sum dist/${{ matrix.artifact_name }} > dist/${{ matrix.artifact_name }}.sha256
-        fi
-        
-    - name: 📎 Upload Binary
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./dist/${{ matrix.artifact_name }}
-        asset_name: ${{ matrix.artifact_name }}
-        asset_content_type: application/octet-stream
-        
-    - name: 📎 Upload Checksum
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./dist/${{ matrix.artifact_name }}.sha256
-        asset_name: ${{ matrix.artifact_name }}.sha256
-        asset_content_type: text/plain
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements.txt
+
+      - name: 🔨 Build Binary
+        run: |
+          pyinstaller --onefile --name ${{ matrix.artifact_name }} mcp_server/server.py
+
+      - name: 📊 Generate Checksum
+        run: |
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            certutil -hashfile dist/${{ matrix.artifact_name }} SHA256 > dist/${{ matrix.artifact_name }}.sha256
+          else
+            sha256sum dist/${{ matrix.artifact_name }} > dist/${{ matrix.artifact_name }}.sha256
+          fi
+
+      - name: 📎 Upload Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.artifact_name }}
+          asset_content_type: application/octet-stream
+
+      - name: 📎 Upload Checksum
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/${{ matrix.artifact_name }}.sha256
+          asset_name: ${{ matrix.artifact_name }}.sha256
+          asset_content_type: text/plain
 
   # 📚 Update Documentation
   docs:
     name: 📚 Update Documentation
     runs-on: ubuntu-latest
     needs: [create-release, docker, python-package]
-    
+
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: 🐍 Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        
-    - name: 📦 Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install mkdocs mkdocs-material mkdocstrings
-        
-    - name: 📝 Update Version in Docs
-      run: |
-        sed -i "s/version: .*/version: ${{ needs.create-release.outputs.version }}/" mkdocs.yml
-        
-    - name: 📚 Build Documentation
-      run: |
-        mkdocs build --strict
-        
-    - name: 🚀 Deploy Documentation
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./site
-        
-    - name: 💬 Commit Version Update
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add mkdocs.yml
-        git commit -m "📝 Update documentation version to ${{ needs.create-release.outputs.version }}" || exit 0
-        git push
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install mkdocs mkdocs-material mkdocstrings
+
+      - name: 📝 Update Version in Docs
+        run: |
+          sed -i "s/version: .*/version: ${{ needs.create-release.outputs.version }}/" mkdocs.yml
+
+      - name: 📚 Build Documentation
+        run: |
+          mkdocs build --strict
+
+      - name: 🚀 Deploy Documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+
+      - name: 💬 Commit Version Update
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add mkdocs.yml
+          git commit -m "📝 Update documentation version to ${{ needs.create-release.outputs.version }}" || exit 0
+          git push
 
   # 📢 Post-Release Notifications
   notify:
@@ -332,53 +332,54 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-release, docker, python-package, binary-releases, docs]
     if: always()
-    
+
     steps:
-    - name: 📢 Discord Notification
-      uses: Ilshidur/action-discord@master
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      with:
-        args: |
-          🚀 **InfraGenius ${{ needs.create-release.outputs.version }} Released!**
-          
-          📦 **Available on:**
-          • PyPI: `pip install infragenius==${{ needs.create-release.outputs.version }}`
-          • Docker: `docker pull ghcr.io/${{ github.repository }}:${{ needs.create-release.outputs.version }}`
-          • GitHub: https://github.com/${{ github.repository }}/releases/tag/${{ needs.create-release.outputs.version }}
-          
-          📚 **Documentation:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
-          
-          🎉 Thanks to all contributors!
-          
-    - name: 📧 Email Notification
-      if: failure()
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.gmail.com
-        server_port: 587
-        username: ${{ secrets.MAIL_USERNAME }}
-        password: ${{ secrets.MAIL_PASSWORD }}
-        subject: "❌ InfraGenius Release ${{ needs.create-release.outputs.version }} Failed"
-        to: ${{ secrets.NOTIFICATION_EMAIL }}
-        from: InfraGenius CI <noreply@infragenius.ai>
-        body: |
-          The release workflow for InfraGenius ${{ needs.create-release.outputs.version }} has failed.
-          
-          Please check the GitHub Actions logs for more details:
-          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: 📢 Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            🚀 **InfraGenius ${{ needs.create-release.outputs.version }} Released!**
+
+            📦 **Available on:**
+            • PyPI: `pip install infragenius==${{ needs.create-release.outputs.version }}`
+            • Docker: `docker pull ghcr.io/${{ github.repository }}:${{ needs.create-release.outputs.version }}`
+            • GitHub: https://github.com/${{ github.repository }}/releases/tag/${{ needs.create-release.outputs.version }}
+
+            📚 **Documentation:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+
+            🎉 Thanks to all contributors!
+
+      - name: 📧 Email Notification
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "❌ InfraGenius Release ${{ needs.create-release.outputs.version }} Failed"
+          to: ${{ secrets.NOTIFICATION_EMAIL }}
+          from: InfraGenius CI <noreply@#>
+          body: |
+            The release workflow for InfraGenius ${{ needs.create-release.outputs.version }} has failed.
+
+            Please check the GitHub Actions logs for more details:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   # ✅ Release Success
   success:
     name: ✅ Release Success
     runs-on: ubuntu-latest
-    needs: [create-release, docker, python-package, binary-releases, docs, notify]
-    
+    needs:
+      [create-release, docker, python-package, binary-releases, docs, notify]
+
     steps:
-    - name: 🎉 Release Completed
-      run: |
-        echo "🎉 Successfully released InfraGenius ${{ needs.create-release.outputs.version }}!"
-        echo "📦 PyPI: https://pypi.org/project/infragenius/${{ needs.create-release.outputs.version }}/"
-        echo "🐳 Docker: ghcr.io/${{ github.repository }}:${{ needs.create-release.outputs.version }}"
-        echo "📚 Docs: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
-        echo "🏷️ Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.create-release.outputs.version }}"
+      - name: 🎉 Release Completed
+        run: |
+          echo "🎉 Successfully released InfraGenius ${{ needs.create-release.outputs.version }}!"
+          echo "📦 PyPI: https://pypi.org/project/infragenius/${{ needs.create-release.outputs.version }}/"
+          echo "🐳 Docker: ghcr.io/${{ github.repository }}:${{ needs.create-release.outputs.version }}"
+          echo "📚 Docs: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          echo "🏷️ Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.create-release.outputs.version }}"

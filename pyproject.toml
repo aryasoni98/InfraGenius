@@ -6,10 +6,10 @@ build-backend = "setuptools.build_meta"
 name = "infragenius"
 version = "1.0.0"
 authors = [
-    {name = "Arya Soni", email = "arya@infragenius.ai"},
+    {name = "Arya Soni", email = "arya@#"},
 ]
 maintainers = [
-    {name = "InfraGenius Team", email = "maintainers@infragenius.ai"},
+    {name = "InfraGenius Team", email = "maintainers@#"},
 ]
 description = "AI-Powered DevOps & SRE Intelligence Platform"
 readme = "README.md"
@@ -110,8 +110,8 @@ monitoring = [
 ]
 
 [project.urls]
-Homepage = "https://infragenius.ai"
-Documentation = "https://docs.infragenius.ai"
+Homepage = "https://#"
+Documentation = "https://docs.#"
 Repository = "https://github.com/infragenius/infragenius"
 "Bug Tracker" = "https://github.com/infragenius/infragenius/issues"
 Changelog = "https://github.com/infragenius/infragenius/blob/main/CHANGELOG.md"

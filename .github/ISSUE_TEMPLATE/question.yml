@@ -10,7 +10,7 @@ body:
       value: |
         Have a question about InfraGenius? We're here to help! ❓
         
-        Before asking, please check our [documentation](https://docs.infragenius.ai) and search existing issues.
+        Before asking, please check our [documentation](https://docs.#) and search existing issues.
 
   - type: checkboxes
     id: terms
@@ -152,7 +152,7 @@ body:
         Our community and maintainers will do their best to help you. For faster responses, consider:
         
         - 💬 Joining our [Discord community](https://discord.gg/infragenius)
-        - 📚 Checking our [documentation](https://docs.infragenius.ai)
+        - 📚 Checking our [documentation](https://docs.#)
         - 🔍 Searching [GitHub Discussions](https://github.com/infragenius/infragenius/discussions)
         
-        **For urgent production issues**, please contact: support@infragenius.ai
+        **For urgent production issues**, please contact: support@#

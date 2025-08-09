@@ -10,7 +10,7 @@ The InfraGenius team takes security seriously. We appreciate your efforts to res
 
 ### Preferred Reporting Method
 
-Send security vulnerabilities to: **[security@infragenius.ai](mailto:security@infragenius.ai)**
+Send security vulnerabilities to: **[security@#](mailto:security@#)**
 
 ### What to Include
 
@@ -311,8 +311,8 @@ groups:
 
 ## 📞 Contact Information
 
-- **Security Team**: [security@infragenius.ai](mailto:security@infragenius.ai)
-- **General Contact**: [hello@infragenius.ai](mailto:hello@infragenius.ai)
+- **Security Team**: [security@#](mailto:security@#)
+- **General Contact**: [hello@#](mailto:hello@#)
 - **Emergency**: For critical security issues, include "URGENT SECURITY" in the subject line
 
 ## 🔄 Policy Updates

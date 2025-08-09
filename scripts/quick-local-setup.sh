@@ -494,7 +494,7 @@ print_completion() {
     echo -e "${CYAN}${INFO} Need Help?${NC}"
     echo -e "  ${YELLOW}GitHub Issues:${NC}    https://github.com/infragenius/infragenius/issues"
     echo -e "  ${YELLOW}Discord:${NC}          https://discord.gg/infragenius"
-    echo -e "  ${YELLOW}Documentation:${NC}    https://docs.infragenius.ai"
+    echo -e "  ${YELLOW}Documentation:${NC}    https://docs.#"
     echo ""
     echo -e "${GREEN}Happy coding with InfraGenius! 🚀${NC}"
 }

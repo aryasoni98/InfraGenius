@@ -55,7 +55,7 @@ client = InfraGenius(config=config)
 
 ## 📚 Documentation
 
-For complete documentation, visit: https://docs.infragenius.ai
+For complete documentation, visit: https://docs.#
 
 ## 🤝 Contributing
 

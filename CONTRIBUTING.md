@@ -15,7 +15,7 @@ It's people like you that make InfraGenius such a great tool for the DevOps and 
 
 ## 📜 Code of Conduct
 
-This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [conduct@infragenius.ai](mailto:conduct@infragenius.ai).
+This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [conduct@#](mailto:conduct@#).
 
 ## 🚀 Getting Started
 
@@ -497,14 +497,14 @@ Contributors will be recognized in several ways:
 
 If you need help contributing:
 
-1. **Documentation**: Check our [docs](https://docs.infragenius.ai)
+1. **Documentation**: Check our [docs](https://docs.#)
 2. **Discord**: Join our [community Discord](https://discord.gg/infragenius)
 3. **GitHub Discussions**: Use [GitHub Discussions](https://github.com/infragenius/infragenius/discussions)
 4. **Issues**: Create an issue with the `question` label
 
 ## 📞 Contact
 
-- **Email**: contributors@infragenius.ai
+- **Email**: contributors@#
 - **Discord**: [Join our server](https://discord.gg/infragenius)
 - **GitHub**: [@infragenius](https://github.com/infragenius)
 
