@@ -14,6 +14,7 @@
 
 [📚 Documentation](https://infragenius.github.io/infragenius) • 
 [🚀 Quick Start](#-quick-start) • 
+[🗺️ Roadmap](ROADMAP.md) • 
 [💬 Community](https://discord.gg/infragenius) • 
 [🤝 Contributing](CONTRIBUTING.md)
 
@@ -22,6 +23,11 @@
 ## 🎯 Overview
 
 **InfraGenius** is a comprehensive AI-powered platform designed specifically for DevOps, SRE, Cloud, and Platform Engineering professionals. It provides industry-level expertise through advanced AI models, optimized for infrastructure operations, reliability engineering, and cloud architecture.
+
+### 🌟 Vision
+To democratize intelligent infrastructure management by providing developers worldwide with AI-driven insights, automation, and best practices - making reliable, scalable infrastructure accessible to everyone.
+
+> 📋 **See our detailed [6-Month Roadmap](ROADMAP.md)** for upcoming features and community goals!
 
 ### 🌟 Key Features
 

@@ -12,9 +12,9 @@ updates:
       time: "09:00"
     open-pull-requests-limit: 10
     reviewers:
-      - "infragenius/maintainers"
+      - "aryasoni98"
     assignees:
-      - "infragenius/maintainers"
+      - "aryasoni98"
     labels:
       - "dependencies"
       - "python"
@@ -68,7 +68,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-      day: "first-monday"
       time: "09:00"
     open-pull-requests-limit: 5
     reviewers:
