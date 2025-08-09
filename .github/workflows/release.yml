@@ -353,7 +353,7 @@ jobs:
 
       - name: 📧 Email Notification
         if: failure()
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v6
         with:
           server_address: smtp.gmail.com
           server_port: 587
