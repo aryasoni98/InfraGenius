@@ -86,7 +86,7 @@ jobs:
         pytest tests/unit/ -v --tb=short --cov=mcp_server --cov-report=xml --cov-report=html
         
     - name: 📊 Upload Coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       with:
         file: ./coverage.xml
