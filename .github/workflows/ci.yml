@@ -49,7 +49,7 @@ jobs:
       continue-on-error: true
       
     - name: 📊 Upload Security Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: security-report
@@ -94,7 +94,7 @@ jobs:
         name: codecov-umbrella
         
     - name: 📈 Upload Coverage Reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       with:
         name: coverage-reports
@@ -200,7 +200,7 @@ jobs:
         pytest tests/performance/ -v --tb=short --benchmark-json=benchmark.json
         
     - name: 📊 Upload Performance Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: performance-results
         path: benchmark.json
@@ -266,7 +266,7 @@ jobs:
       continue-on-error: true
       
     - name: 📊 Upload Safety Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: safety-report
