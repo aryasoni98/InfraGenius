@@ -20,7 +20,7 @@ aiofiles==23.2.0
 
 # Logging
 structlog==23.2.0
-colorlog==6.8.0
+colorlog==6.9.0
 
 # Utilities
 click==8.1.7

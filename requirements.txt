@@ -26,7 +26,7 @@ pyyaml==6.0.1
 
 # Logging
 structlog==23.2.0
-colorlog==6.8.0
+colorlog==6.9.0
 
 # Caching
 redis==5.0.1
