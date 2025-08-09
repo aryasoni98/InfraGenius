@@ -23,7 +23,7 @@ structlog==23.2.0
 colorlog==6.8.0
 
 # Utilities
-click==8.1.7
+click==8.1.8
 rich==13.7.0
 
 # JSON Processing
