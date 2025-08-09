@@ -1,0 +1,324 @@
+{
+  "server": {
+    "name": "DevOps SRE Platform MCP Server",
+    "version": "1.0.0",
+    "description": "Advanced MCP server for DevOps, SRE, Cloud, and Platform Engineering with industry-level expertise",
+    "model": "gpt-oss:latest",
+    "performance_optimizations": {
+      "enabled": true,
+      "parallel_processing": true,
+      "caching": true,
+      "batch_processing": true
+    }
+  },
+  "ollama": {
+    "model": "gpt-oss:latest",
+    "base_url": "http://localhost:11434",
+    "timeout": 300,
+    "parameters": {
+      "temperature": 0.1,
+      "top_p": 0.9,
+      "top_k": 40,
+      "repeat_penalty": 1.1,
+      "num_ctx": 32768,
+      "num_predict": 4096,
+      "num_thread": 8
+    },
+    "fine_tuning": {
+      "enabled": true,
+      "dataset_path": "./fine_tuning/devops_dataset.jsonl",
+      "validation_split": 0.2,
+      "epochs": 10,
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "domain_specific_training": {
+        "devops": {
+          "weight": 0.3,
+          "focus_areas": ["ci_cd", "infrastructure", "automation", "monitoring"]
+        },
+        "sre": {
+          "weight": 0.25,
+          "focus_areas": ["reliability", "incident_response", "slo_management", "observability"]
+        },
+        "cloud": {
+          "weight": 0.25,
+          "focus_areas": ["architecture", "security", "cost_optimization", "migration"]
+        },
+        "platform": {
+          "weight": 0.2,
+          "focus_areas": ["developer_experience", "api_design", "self_service", "tooling"]
+        }
+      }
+    }
+  },
+  "domains": {
+    "devops": {
+      "enabled": true,
+      "expertise_level": "senior",
+      "specializations": [
+        "ci_cd_optimization",
+        "infrastructure_as_code",
+        "container_orchestration",
+        "cloud_platforms",
+        "monitoring_observability",
+        "security_compliance",
+        "performance_optimization",
+        "incident_response",
+        "gitops_workflows",
+        "automation"
+      ],
+      "tools": [
+        "jenkins",
+        "gitlab_ci",
+        "github_actions",
+        "terraform",
+        "ansible",
+        "kubernetes",
+        "docker",
+        "prometheus",
+        "grafana",
+        "elk_stack"
+      ]
+    },
+    "sre": {
+      "enabled": true,
+      "expertise_level": "principal",
+      "specializations": [
+        "service_level_objectives",
+        "error_budgets",
+        "incident_management",
+        "post_mortem_culture",
+        "reliability_engineering",
+        "chaos_engineering",
+        "performance_optimization",
+        "capacity_planning",
+        "observability_strategy",
+        "on_call_procedures"
+      ],
+      "methodologies": [
+        "sli_slo_framework",
+        "error_budget_management",
+        "toil_reduction",
+        "blameless_postmortems",
+        "chaos_engineering",
+        "canary_deployments",
+        "circuit_breakers",
+        "bulkhead_patterns"
+      ]
+    },
+    "cloud": {
+      "enabled": true,
+      "expertise_level": "senior_architect",
+      "platforms": [
+        "aws",
+        "azure",
+        "gcp",
+        "multi_cloud",
+        "hybrid_cloud"
+      ],
+      "specializations": [
+        "cloud_native_architecture",
+        "migration_strategies",
+        "serverless_computing",
+        "event_driven_architecture",
+        "cloud_security",
+        "compliance_frameworks",
+        "cost_optimization",
+        "finops_practices",
+        "auto_scaling",
+        "data_analytics"
+      ],
+      "well_architected_frameworks": {
+        "aws": ["security", "reliability", "performance", "cost", "operational_excellence", "sustainability"],
+        "azure": ["security", "reliability", "performance", "cost", "operational_excellence"],
+        "gcp": ["security", "reliability", "performance", "cost", "operational_excellence"]
+      }
+    },
+    "platform": {
+      "enabled": true,
+      "expertise_level": "staff",
+      "specializations": [
+        "developer_experience",
+        "platform_engineering",
+        "internal_developer_platforms",
+        "api_design",
+        "microservices_architecture",
+        "service_mesh",
+        "developer_tooling",
+        "infrastructure_abstraction",
+        "self_service_capabilities",
+        "multi_tenancy"
+      ],
+      "patterns": [
+        "golden_paths",
+        "paved_roads",
+        "platform_as_product",
+        "api_first_design",
+        "event_driven_architecture",
+        "strangler_fig_pattern",
+        "bulkhead_isolation",
+        "circuit_breaker"
+      ]
+    }
+  },
+  "analysis_types": {
+    "log_analysis": {
+      "enabled": true,
+      "confidence_threshold": 0.8,
+      "max_log_size": "10MB",
+      "supported_formats": ["json", "plaintext", "syslog", "apache", "nginx", "kubernetes"]
+    },
+    "infrastructure_audit": {
+      "enabled": true,
+      "compliance_frameworks": ["soc2", "pci_dss", "hipaa", "gdpr", "iso27001", "nist"],
+      "cloud_providers": ["aws", "azure", "gcp", "multi_cloud"]
+    },
+    "incident_analysis": {
+      "enabled": true,
+      "severity_levels": ["critical", "high", "medium", "low"],
+      "response_time_sla": {
+        "critical": "5m",
+        "high": "15m",
+        "medium": "1h",
+        "low": "4h"
+      }
+    },
+    "performance_analysis": {
+      "enabled": true,
+      "metrics_types": ["cpu", "memory", "disk", "network", "latency", "throughput", "error_rate"],
+      "analysis_periods": ["1h", "6h", "24h", "7d", "30d"]
+    },
+    "capacity_planning": {
+      "enabled": true,
+      "growth_models": ["linear", "exponential", "seasonal", "custom"],
+      "planning_horizons": ["3months", "6months", "1year", "2years"]
+    },
+    "security_assessment": {
+      "enabled": true,
+      "threat_models": ["owasp", "mitre_attack", "nist_cybersecurity", "custom"],
+      "vulnerability_scanners": ["nessus", "qualys", "rapid7", "openvas"]
+    },
+    "cost_optimization": {
+      "enabled": true,
+      "optimization_targets": ["10%", "20%", "30%", "50%"],
+      "cost_categories": ["compute", "storage", "network", "database", "managed_services"]
+    },
+    "disaster_recovery": {
+      "enabled": true,
+      "rto_options": ["1h", "4h", "12h", "24h", "72h"],
+      "rpo_options": ["0", "15m", "1h", "4h", "24h"],
+      "dr_strategies": ["backup_restore", "pilot_light", "warm_standby", "multi_site_active"]
+    }
+  },
+  "performance": {
+    "caching": {
+      "enabled": true,
+      "ttl": 3600,
+      "max_entries": 1000,
+      "cache_types": ["analysis_results", "prompt_templates", "resource_content"]
+    },
+    "parallel_processing": {
+      "enabled": true,
+      "max_workers": 4,
+      "queue_size": 100,
+      "timeout": 300
+    },
+    "batch_processing": {
+      "enabled": true,
+      "batch_size": 10,
+      "max_wait_time": 30
+    },
+    "optimization": {
+      "cursor_ai_integration": true,
+      "prompt_optimization": true,
+      "response_streaming": true,
+      "context_compression": true
+    }
+  },
+  "security": {
+    "authentication": {
+      "enabled": true,
+      "methods": ["api_key", "oauth2", "jwt"]
+    },
+    "encryption": {
+      "at_rest": true,
+      "in_transit": true,
+      "algorithm": "AES-256"
+    },
+    "audit_logging": {
+      "enabled": true,
+      "log_level": "info",
+      "retention_days": 90
+    },
+    "input_validation": {
+      "enabled": true,
+      "max_input_size": "1MB",
+      "sanitization": true,
+      "malicious_pattern_detection": true
+    }
+  },
+  "monitoring": {
+    "metrics": {
+      "enabled": true,
+      "endpoint": "/metrics",
+      "format": "prometheus"
+    },
+    "health_checks": {
+      "enabled": true,
+      "endpoint": "/health",
+      "checks": ["ollama_connection", "model_availability", "disk_space", "memory_usage"]
+    },
+    "logging": {
+      "level": "info",
+      "format": "json",
+      "output": "stdout"
+    },
+    "tracing": {
+      "enabled": true,
+      "jaeger_endpoint": "http://localhost:14268/api/traces"
+    }
+  },
+  "integrations": {
+    "cursor_ai": {
+      "enabled": true,
+      "api_endpoint": "https://api.cursor.sh",
+      "features": ["code_completion", "error_detection", "optimization_suggestions"]
+    },
+    "kubernetes": {
+      "enabled": true,
+      "config_path": "~/.kube/config",
+      "namespace": "default"
+    },
+    "prometheus": {
+      "enabled": true,
+      "endpoint": "http://localhost:9090",
+      "query_timeout": 30
+    },
+    "grafana": {
+      "enabled": true,
+      "endpoint": "http://localhost:3000",
+      "api_key": "${GRAFANA_API_KEY}"
+    },
+    "elasticsearch": {
+      "enabled": false,
+      "endpoint": "http://localhost:9200",
+      "index_pattern": "logs-*"
+    }
+  },
+  "knowledge_base": {
+    "enabled": true,
+    "update_frequency": "daily",
+    "sources": [
+      "aws_documentation",
+      "kubernetes_docs",
+      "prometheus_docs",
+      "terraform_docs",
+      "owasp_guidelines",
+      "nist_frameworks",
+      "sre_books",
+      "devops_best_practices"
+    ],
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "vector_store": "faiss"
+  }
+}

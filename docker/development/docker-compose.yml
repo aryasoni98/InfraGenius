@@ -1,0 +1,144 @@
+version: "3.8"
+
+services:
+  # MCP Server - Development
+  mcp-server:
+    build:
+      context: ../../
+      dockerfile: docker/development/Dockerfile
+    ports:
+      - "8000:8000"
+      - "5678:5678" # Debug port
+    environment:
+      - ENVIRONMENT=development
+      - CONFIG_PATH=/app/environments/test/config.test.json
+      - DATABASE_URL=postgresql://testuser:testpass@postgres:5432/mcptest
+      - REDIS_URL=redis://redis:6379/1
+      - PYTHONPATH=/app
+      - DEBUG=true
+    volumes:
+      - ../../:/app
+      - /app/venv # Prevent overwriting venv
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - mcp-network
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync
+          path: ../../src
+          target: /app/src
+        - action: rebuild
+          path: ../../requirements.txt
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=mcptest
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpass
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testuser -d mcptest"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  # Ollama Service (Optional - for local AI)
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_KEEP_ALIVE=5m
+    networks:
+      - mcp-network
+    restart: unless-stopped
+    profiles:
+      - ai-local
+
+  # Development Tools
+
+  # Adminer - Database Management
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+    networks:
+      - mcp-network
+    profiles:
+      - tools
+
+  # Redis Commander - Redis Management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379:1
+    networks:
+      - mcp-network
+    profiles:
+      - tools
+
+  # Mailhog - Email Testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+    networks:
+      - mcp-network
+    profiles:
+      - tools
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  ollama_data:
+    driver: local
+
+networks:
+  mcp-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

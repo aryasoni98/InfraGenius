@@ -1,0 +1,496 @@
+{
+  "server": {
+    "name": "DevOps SRE Platform MCP Server",
+    "version": "1.0.0",
+    "description": "Production-ready MCP server for DevOps, SRE, Cloud, and Platform Engineering",
+    "host": "0.0.0.0",
+    "port": 8000,
+    "environment": "production",
+    "debug": false,
+    "workers": 4,
+    "max_connections": 1000,
+    "keepalive_timeout": 30,
+    "graceful_shutdown_timeout": 30,
+    "performance_optimizations": {
+      "enabled": true,
+      "async_processing": true,
+      "connection_pooling": true,
+      "request_batching": true,
+      "response_compression": true,
+      "static_file_caching": true,
+      "memory_optimization": true
+    }
+  },
+  "ollama": {
+    "model": "gpt-oss:latest",
+    "base_url": "http://ollama-service:11434",
+    "timeout": 300,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "connection_pool_size": 10,
+    "request_timeout": 120,
+    "keep_alive": true,
+    "fallback_models": ["gpt-oss:20b", "llama2:13b"],
+    "load_balancing": {
+      "enabled": true,
+      "strategy": "round_robin",
+      "health_check_interval": 30
+    }
+  },
+  "database": {
+    "url": "postgresql://mcpuser:mcppass123@localhost:5432/mcpserver",
+    "pool_size": 20,
+    "max_overflow": 50,
+    "pool_timeout": 30,
+    "pool_recycle": 3600,
+    "pool_pre_ping": true,
+    "echo": false,
+    "autocommit": false,
+    "autoflush": true,
+    "expire_on_commit": false,
+    "connection_args": {
+      "connect_timeout": 10,
+      "command_timeout": 60,
+      "server_settings": {
+        "application_name": "mcp-server",
+        "timezone": "UTC"
+      }
+    },
+    "migrations": {
+      "auto_upgrade": false,
+      "backup_before_upgrade": true
+    }
+  },
+  "redis": {
+    "url": "redis://localhost:6379/0",
+    "max_connections": 100,
+    "retry_on_timeout": true,
+    "socket_keepalive": true,
+    "socket_keepalive_options": {},
+    "connection_pool": {
+      "max_connections": 50,
+      "retry_on_timeout": true,
+      "health_check_interval": 30
+    },
+    "cluster": {
+      "enabled": false,
+      "nodes": [],
+      "skip_full_coverage_check": true
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "default_ttl": 3600,
+    "max_size": 10000,
+    "eviction_policy": "lru",
+    "compression": {
+      "enabled": true,
+      "algorithm": "lz4",
+      "min_size": 1024
+    },
+    "layers": {
+      "memory": {
+        "enabled": true,
+        "max_size": 1000,
+        "ttl": 300
+      },
+      "redis": {
+        "enabled": true,
+        "max_size": 100000,
+        "ttl": 3600
+      }
+    }
+  },
+  "domains": {
+    "devops": {
+      "enabled": true,
+      "priority": 1,
+      "features": [
+        "ci_cd_optimization",
+        "infrastructure_analysis",
+        "deployment_strategies",
+        "pipeline_troubleshooting",
+        "automation_recommendations",
+        "security_scanning",
+        "performance_monitoring"
+      ],
+      "specialized_models": {
+        "enabled": true,
+        "model_path": "devops_specialist",
+        "fine_tuning": {
+          "enabled": true,
+          "dataset_path": "fine_tuning/devops_dataset.jsonl"
+        }
+      }
+    },
+    "sre": {
+      "enabled": true,
+      "priority": 1,
+      "features": [
+        "reliability_engineering",
+        "incident_response",
+        "slo_management",
+        "error_budget_analysis",
+        "observability_setup",
+        "capacity_planning",
+        "disaster_recovery",
+        "postmortem_analysis"
+      ],
+      "specialized_models": {
+        "enabled": true,
+        "model_path": "sre_specialist",
+        "fine_tuning": {
+          "enabled": true,
+          "dataset_path": "fine_tuning/sre_dataset.jsonl"
+        }
+      }
+    },
+    "cloud": {
+      "enabled": true,
+      "priority": 1,
+      "features": [
+        "architecture_design",
+        "cost_optimization",
+        "security_assessment",
+        "migration_planning",
+        "multi_cloud_strategy",
+        "serverless_architecture",
+        "container_orchestration",
+        "compliance_management"
+      ],
+      "cloud_providers": {
+        "aws": {
+          "enabled": true,
+          "regions": ["us-east-1", "us-west-2", "eu-west-1"]
+        },
+        "gcp": {
+          "enabled": true,
+          "regions": ["us-central1", "europe-west1", "asia-southeast1"]
+        },
+        "azure": {
+          "enabled": true,
+          "regions": ["eastus", "westeurope", "southeastasia"]
+        }
+      }
+    },
+    "platform": {
+      "enabled": true,
+      "priority": 2,
+      "features": [
+        "developer_experience",
+        "api_design",
+        "microservices_architecture",
+        "service_mesh",
+        "developer_tools",
+        "self_service_platforms",
+        "internal_tooling",
+        "documentation_generation"
+      ]
+    }
+  },
+  "security": {
+    "authentication": {
+      "enabled": true,
+      "jwt": {
+        "secret_key": "your-super-secret-jwt-key-change-in-production",
+        "algorithm": "HS256",
+        "access_token_expire_minutes": 60,
+        "refresh_token_expire_days": 7
+      },
+      "api_key": {
+        "enabled": true,
+        "header_name": "X-API-Key",
+        "query_param": "api_key"
+      }
+    },
+    "rate_limiting": {
+      "enabled": true,
+      "default_limits": {
+        "requests_per_minute": 60,
+        "requests_per_hour": 1000,
+        "requests_per_day": 10000
+      },
+      "tier_limits": {
+        "free": {
+          "requests_per_minute": 10,
+          "requests_per_hour": 50,
+          "requests_per_day": 50,
+          "burst_size": 5
+        },
+        "starter": {
+          "requests_per_minute": 30,
+          "requests_per_hour": 500,
+          "requests_per_day": 500,
+          "burst_size": 10
+        },
+        "professional": {
+          "requests_per_minute": 100,
+          "requests_per_hour": 2500,
+          "requests_per_day": 2500,
+          "burst_size": 20
+        },
+        "enterprise": {
+          "requests_per_minute": 500,
+          "requests_per_hour": 10000,
+          "requests_per_day": 10000,
+          "burst_size": 50
+        }
+      },
+      "storage": "redis",
+      "key_prefix": "rate_limit:",
+      "strategy": "sliding_window"
+    },
+    "cors": {
+      "enabled": true,
+      "allow_origins": ["*"],
+      "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "allow_headers": ["*"],
+      "allow_credentials": true,
+      "max_age": 86400
+    },
+    "encryption": {
+      "data_at_rest": {
+        "enabled": true,
+        "algorithm": "AES-256-GCM"
+      },
+      "data_in_transit": {
+        "enabled": true,
+        "tls_version": "1.3",
+        "cipher_suites": ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"]
+      }
+    }
+  },
+  "monitoring": {
+    "metrics": {
+      "enabled": true,
+      "endpoint": "/metrics",
+      "format": "prometheus",
+      "include_system_metrics": true,
+      "include_application_metrics": true,
+      "custom_metrics": {
+        "request_duration": true,
+        "active_connections": true,
+        "cache_hit_rate": true,
+        "model_inference_time": true,
+        "error_rate": true
+      }
+    },
+    "health_checks": {
+      "enabled": true,
+      "endpoint": "/health",
+      "detailed_endpoint": "/health/detailed",
+      "checks": {
+        "database": true,
+        "redis": true,
+        "ollama": true,
+        "disk_space": true,
+        "memory_usage": true
+      },
+      "timeout": 10,
+      "interval": 30
+    },
+    "logging": {
+      "level": "INFO",
+      "format": "json",
+      "output": "stdout",
+      "include_request_id": true,
+      "include_user_id": true,
+      "include_performance_metrics": true,
+      "structured_logging": true,
+      "log_rotation": {
+        "enabled": true,
+        "max_size": "100MB",
+        "backup_count": 10
+      }
+    },
+    "tracing": {
+      "enabled": true,
+      "sampler": "probabilistic",
+      "sample_rate": 0.1,
+      "exporter": "jaeger",
+      "service_name": "mcp-server"
+    },
+    "alerting": {
+      "enabled": true,
+      "channels": {
+        "slack": {
+          "enabled": false,
+          "webhook_url": "",
+          "channel": "#alerts"
+        },
+        "email": {
+          "enabled": false,
+          "smtp_server": "",
+          "recipients": []
+        },
+        "pagerduty": {
+          "enabled": false,
+          "integration_key": ""
+        }
+      },
+      "rules": {
+        "high_error_rate": {
+          "threshold": 0.05,
+          "window": "5m",
+          "severity": "critical"
+        },
+        "high_response_time": {
+          "threshold": 2000,
+          "window": "5m",
+          "severity": "warning"
+        },
+        "low_cache_hit_rate": {
+          "threshold": 0.7,
+          "window": "10m",
+          "severity": "warning"
+        }
+      }
+    }
+  },
+  "performance": {
+    "optimization": {
+      "enabled": true,
+      "cursor_ai_techniques": {
+        "enabled": true,
+        "prompt_optimization": true,
+        "context_compression": true,
+        "intelligent_caching": true,
+        "parallel_processing": true,
+        "response_streaming": true
+      },
+      "auto_scaling": {
+        "enabled": true,
+        "min_replicas": 2,
+        "max_replicas": 20,
+        "target_cpu_utilization": 70,
+        "target_memory_utilization": 80,
+        "scale_up_stabilization": 60,
+        "scale_down_stabilization": 300
+      }
+    },
+    "resource_limits": {
+      "max_concurrent_requests": 1000,
+      "max_request_size": "10MB",
+      "max_response_size": "50MB",
+      "request_timeout": 300,
+      "keepalive_timeout": 30
+    },
+    "optimization_strategies": {
+      "lazy_loading": true,
+      "connection_pooling": true,
+      "query_optimization": true,
+      "index_optimization": true,
+      "memory_mapping": true,
+      "cpu_affinity": false
+    }
+  },
+  "integrations": {
+    "kubernetes": {
+      "enabled": true,
+      "namespace": "mcp-production",
+      "service_account": "mcp-server",
+      "rbac": {
+        "enabled": true,
+        "cluster_role": "mcp-server-role"
+      }
+    },
+    "prometheus": {
+      "enabled": true,
+      "endpoint": "http://prometheus:9090",
+      "scrape_interval": "30s",
+      "evaluation_interval": "30s"
+    },
+    "grafana": {
+      "enabled": true,
+      "endpoint": "http://grafana:3000",
+      "dashboards": {
+        "auto_import": true,
+        "dashboard_path": "monitoring/dashboards"
+      }
+    },
+    "jaeger": {
+      "enabled": true,
+      "endpoint": "http://jaeger:14268",
+      "sampler_type": "probabilistic",
+      "sampler_param": 0.1
+    }
+  },
+  "deployment": {
+    "strategy": "rolling_update",
+    "max_unavailable": 1,
+    "max_surge": 1,
+    "readiness_probe": {
+      "path": "/ready",
+      "initial_delay": 30,
+      "period": 10,
+      "timeout": 5,
+      "failure_threshold": 3
+    },
+    "liveness_probe": {
+      "path": "/health",
+      "initial_delay": 60,
+      "period": 30,
+      "timeout": 10,
+      "failure_threshold": 3
+    },
+    "startup_probe": {
+      "path": "/health",
+      "initial_delay": 10,
+      "period": 10,
+      "timeout": 5,
+      "failure_threshold": 30
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "database": {
+      "frequency": "daily",
+      "retention_days": 30,
+      "compression": true,
+      "encryption": true
+    },
+    "configuration": {
+      "frequency": "hourly",
+      "retention_days": 7
+    },
+    "storage": {
+      "type": "s3",
+      "bucket": "mcp-server-backups",
+      "region": "us-east-1"
+    }
+  },
+  "compliance": {
+    "gdpr": {
+      "enabled": true,
+      "data_retention_days": 365,
+      "anonymization": true
+    },
+    "hipaa": {
+      "enabled": false,
+      "encryption_at_rest": true,
+      "audit_logging": true
+    },
+    "soc2": {
+      "enabled": true,
+      "access_controls": true,
+      "change_management": true,
+      "monitoring": true
+    }
+  },
+  "feature_flags": {
+    "new_analysis_engine": {
+      "enabled": false,
+      "rollout_percentage": 0,
+      "target_users": []
+    },
+    "advanced_caching": {
+      "enabled": true,
+      "rollout_percentage": 100
+    },
+    "experimental_models": {
+      "enabled": false,
+      "rollout_percentage": 5,
+      "target_tiers": ["enterprise"]
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "server": {
+    "name": "DevOps SRE MCP Server - Staging Environment",
+    "version": "1.0.0",
+    "environment": "staging",
+    "host": "0.0.0.0",
+    "port": 8000,
+    "debug": false,
+    "workers": 2,
+    "max_connections": 500,
+    "performance_optimizations": {
+      "enabled": true,
+      "async_processing": true,
+      "connection_pooling": true
+    }
+  },
+  "ollama": {
+    "model": "gpt-oss:latest",
+    "base_url": "http://ollama-service:11434",
+    "timeout": 120,
+    "max_retries": 2,
+    "fallback_models": ["gpt-oss:20b"]
+  },
+  "database": {
+    "url": "postgresql://staginguser:stagingpass@postgres-staging:5432/mcpstaging",
+    "pool_size": 10,
+    "max_overflow": 20,
+    "pool_timeout": 30,
+    "echo": false
+  },
+  "redis": {
+    "url": "redis://redis-staging:6379/0",
+    "max_connections": 50
+  },
+  "cache": {
+    "enabled": true,
+    "default_ttl": 1800,
+    "max_size": 1000
+  },
+  "domains": {
+    "devops": {"enabled": true},
+    "sre": {"enabled": true},
+    "cloud": {"enabled": true},
+    "platform": {"enabled": true}
+  },
+  "security": {
+    "authentication": {
+      "enabled": true,
+      "jwt": {
+        "secret_key": "staging-jwt-secret-key",
+        "access_token_expire_minutes": 60
+      }
+    },
+    "rate_limiting": {
+      "enabled": true,
+      "default_limits": {
+        "requests_per_minute": 100,
+        "requests_per_hour": 2000
+      }
+    }
+  },
+  "monitoring": {
+    "metrics": {"enabled": true},
+    "health_checks": {"enabled": true},
+    "logging": {
+      "level": "INFO",
+      "format": "json"
+    },
+    "tracing": {"enabled": true}
+  }
+}

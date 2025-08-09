@@ -1,0 +1,247 @@
+{
+  "system_info": {
+    "cpu_count": 10,
+    "memory_total_gb": 16.0,
+    "memory_available_gb": 9.48,
+    "memory_percent": 40.8,
+    "cpu_percent": 42.0,
+    "disk_usage_percent": 9.0
+  },
+  "total_tests": 6,
+  "successful_tests": 6,
+  "success_rate": 100.0,
+  "total_duration": 1.3518402576446533,
+  "avg_test_duration": 0.22530670960744223,
+  "results": [
+    {
+      "test_name": "LRU Cache",
+      "duration": 0.0014400482177734375,
+      "success": true,
+      "details": {
+        "operations": 1000,
+        "write_time": 0.0007328987121582031,
+        "read_time": 0.0006718635559082031,
+        "hits": 1000,
+        "hit_rate": 1.0,
+        "cache_stats": {
+          "hits": 1000,
+          "misses": 0,
+          "evictions": 0,
+          "expired": 0,
+          "total_requests": 1000,
+          "hit_rate": 1.0,
+          "cache_size": 1000
+        },
+        "ops_per_second": 1388842.3841059604
+      },
+      "error": ""
+    },
+    {
+      "test_name": "Prompt Optimization",
+      "duration": 0.00011801719665527344,
+      "success": true,
+      "details": {
+        "prompts_processed": 4,
+        "total_original_length": 339,
+        "total_optimized_length": 771,
+        "overall_compression": -1.274336283185841,
+        "avg_processing_time": 2.950429916381836e-05,
+        "results": [
+          {
+            "domain": "devops",
+            "original_length": 84,
+            "optimized_length": 295,
+            "compression_ratio": -2.511904761904762,
+            "optimizations_applied": 2
+          },
+          {
+            "domain": "sre",
+            "original_length": 86,
+            "optimized_length": 86,
+            "compression_ratio": 0.0,
+            "optimizations_applied": 2
+          },
+          {
+            "domain": "cloud",
+            "original_length": 87,
+            "optimized_length": 169,
+            "compression_ratio": -0.9425287356321839,
+            "optimizations_applied": 1
+          },
+          {
+            "domain": "platform",
+            "original_length": 82,
+            "optimized_length": 221,
+            "compression_ratio": -1.6951219512195124,
+            "optimizations_applied": 2
+          }
+        ]
+      },
+      "error": ""
+    },
+    {
+      "test_name": "Context Compression",
+      "duration": 0.0013592243194580078,
+      "success": true,
+      "details": {
+        "original_context_size": 8020,
+        "compression_tests": 3,
+        "results": [
+          {
+            "target_reduction": 0.2,
+            "actual_reduction": 0.9980049875311721,
+            "original_length": 8020,
+            "compressed_length": 16,
+            "compression_time": 0.0004570484161376953
+          },
+          {
+            "target_reduction": 0.4,
+            "actual_reduction": 0.9980049875311721,
+            "original_length": 8020,
+            "compressed_length": 16,
+            "compression_time": 0.0004189014434814453
+          },
+          {
+            "target_reduction": 0.6,
+            "actual_reduction": 0.9980049875311721,
+            "original_length": 8020,
+            "compressed_length": 16,
+            "compression_time": 0.0004138946533203125
+          }
+        ],
+        "avg_compression_time": 0.0004299481709798177
+      },
+      "error": ""
+    },
+    {
+      "test_name": "Industry Tools",
+      "duration": 1.3482909202575684,
+      "success": true,
+      "details": {
+        "configured_tools": 3,
+        "available_tools": 2,
+        "tool_list": [
+          "kubernetes",
+          "terraform"
+        ],
+        "initialization_time": 1.3482909202575684
+      },
+      "error": ""
+    },
+    {
+      "test_name": "Performance Monitoring",
+      "duration": 0.0005161762237548828,
+      "success": true,
+      "details": {
+        "metrics_recorded": 100,
+        "summary": {
+          "time_window": 3600,
+          "total_requests": 100,
+          "successful_requests": 95,
+          "success_rate": 0.95,
+          "cache_hit_rate": 0.34,
+          "avg_response_time": 0.325,
+          "min_response_time": 0.1,
+          "max_response_time": 0.55,
+          "p95_response_time": 0.55,
+          "p99_response_time": 0.55,
+          "operations": {
+            "test_operation_0": {
+              "count": 20,
+              "avg_duration": 0.225,
+              "success_rate": 0.75
+            },
+            "test_operation_1": {
+              "count": 20,
+              "avg_duration": 0.275,
+              "success_rate": 1.0
+            },
+            "test_operation_2": {
+              "count": 20,
+              "avg_duration": 0.32500000000000007,
+              "success_rate": 1.0
+            },
+            "test_operation_3": {
+              "count": 20,
+              "avg_duration": 0.375,
+              "success_rate": 1.0
+            },
+            "test_operation_4": {
+              "count": 20,
+              "avg_duration": 0.425,
+              "success_rate": 1.0
+            }
+          }
+        },
+        "processing_time": 0.0005161762237548828
+      },
+      "error": ""
+    },
+    {
+      "test_name": "Optimizer Integration",
+      "duration": 0.00011587142944335938,
+      "success": true,
+      "details": {
+        "requests_processed": 3,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0,
+        "avg_optimization_time": 3.163019816080729e-05,
+        "total_processing_time": 9.489059448242188e-05,
+        "performance_stats": {
+          "prompt_optimizer_cache": {
+            "hits": 0,
+            "misses": 3,
+            "evictions": 0,
+            "expired": 0,
+            "total_requests": 3,
+            "hit_rate": 0.0,
+            "cache_size": 3
+          },
+          "context_compressor_cache": {
+            "hits": 0,
+            "misses": 0,
+            "evictions": 0,
+            "expired": 0,
+            "total_requests": 0,
+            "hit_rate": 0,
+            "cache_size": 0
+          },
+          "global_cache": {
+            "hits": 0,
+            "misses": 3,
+            "evictions": 0,
+            "expired": 0,
+            "total_requests": 3,
+            "hit_rate": 0.0,
+            "cache_size": 0
+          },
+          "performance_summary": {
+            "time_window": 3600,
+            "total_requests": 3,
+            "successful_requests": 3,
+            "success_rate": 1.0,
+            "cache_hit_rate": 0.0,
+            "avg_response_time": 3.163019816080729e-05,
+            "min_response_time": 1.0013580322265625e-05,
+            "max_response_time": 6.29425048828125e-05,
+            "p95_response_time": 6.29425048828125e-05,
+            "p99_response_time": 6.29425048828125e-05,
+            "operations": {
+              "optimize_request": {
+                "count": 3,
+                "avg_duration": 3.163019816080729e-05,
+                "success_rate": 1.0
+              }
+            }
+          },
+          "memory_usage": {
+            "cache_objects": 0,
+            "optimization_history": 3,
+            "performance_metrics": 3
+          }
+        }
+      },
+      "error": ""
+    }
+  ]
+}

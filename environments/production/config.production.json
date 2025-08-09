@@ -1,0 +1,93 @@
+{
+  "server": {
+    "name": "DevOps SRE MCP Server - Production",
+    "version": "1.0.0",
+    "environment": "production",
+    "host": "0.0.0.0",
+    "port": 8000,
+    "debug": false,
+    "workers": 4,
+    "max_connections": 2000,
+    "performance_optimizations": {
+      "enabled": true,
+      "async_processing": true,
+      "connection_pooling": true,
+      "request_batching": true,
+      "response_compression": true
+    }
+  },
+  "ollama": {
+    "model": "gpt-oss:latest",
+    "base_url": "http://ollama-service:11434",
+    "timeout": 300,
+    "max_retries": 3,
+    "fallback_models": ["gpt-oss:20b", "llama2:13b"],
+    "load_balancing": {
+      "enabled": true,
+      "strategy": "round_robin"
+    }
+  },
+  "database": {
+    "url": "postgresql://produser:${DB_PASSWORD}@postgres-prod:5432/mcpprod",
+    "pool_size": 20,
+    "max_overflow": 50,
+    "pool_timeout": 30,
+    "pool_recycle": 3600,
+    "echo": false
+  },
+  "redis": {
+    "url": "redis://redis-prod:6379/0",
+    "max_connections": 100,
+    "cluster": {
+      "enabled": true,
+      "nodes": ["redis-1:6379", "redis-2:6379", "redis-3:6379"]
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "default_ttl": 3600,
+    "max_size": 10000,
+    "compression": {"enabled": true}
+  },
+  "domains": {
+    "devops": {"enabled": true, "priority": 1},
+    "sre": {"enabled": true, "priority": 1},
+    "cloud": {"enabled": true, "priority": 1},
+    "platform": {"enabled": true, "priority": 2}
+  },
+  "security": {
+    "authentication": {
+      "enabled": true,
+      "jwt": {
+        "secret_key": "${JWT_SECRET}",
+        "access_token_expire_minutes": 60,
+        "refresh_token_expire_days": 7
+      }
+    },
+    "rate_limiting": {
+      "enabled": true,
+      "tier_limits": {
+        "free": {"requests_per_minute": 10, "requests_per_day": 50},
+        "professional": {"requests_per_minute": 100, "requests_per_day": 5000}
+      }
+    },
+    "cors": {"enabled": true},
+    "encryption": {"data_at_rest": {"enabled": true}}
+  },
+  "monitoring": {
+    "metrics": {"enabled": true, "include_system_metrics": true},
+    "health_checks": {"enabled": true, "timeout": 10},
+    "logging": {
+      "level": "INFO",
+      "format": "json",
+      "structured_logging": true
+    },
+    "tracing": {"enabled": true, "sample_rate": 0.1},
+    "alerting": {"enabled": true}
+  },
+  "backup": {
+    "enabled": true,
+    "database": {"frequency": "daily", "retention_days": 30},
+    "storage": {"type": "s3", "bucket": "mcp-server-backups"}
+  }
+}
