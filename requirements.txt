@@ -49,7 +49,7 @@ python-jose[cryptography]==3.3.0
 
 # Utilities
 click==8.1.7
-rich==13.7.0
+rich==14.1.0
 python-multipart==0.0.6
 
 # Date/Time
