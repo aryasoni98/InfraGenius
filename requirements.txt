@@ -33,7 +33,7 @@ redis==5.0.1
 diskcache==5.6.3
 
 # Database (Optional)
-sqlalchemy==2.0.23
+sqlalchemy==2.0.43
 asyncpg==0.29.0
 alembic==1.13.1
 
