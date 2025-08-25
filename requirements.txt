@@ -63,5 +63,5 @@ email-validator==2.1.0
 phonenumbers==9.0.12
 
 # Performance
-ujson==5.8.0
+ujson==5.11.0
 msgpack==1.0.7
