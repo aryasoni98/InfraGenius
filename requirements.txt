@@ -2,7 +2,7 @@
 # Main application requirements
 
 # Web Framework
-fastapi==0.104.1
+fastapi==0.116.1
 uvicorn[standard]==0.24.0
 
 # MCP (Model Context Protocol)
