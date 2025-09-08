@@ -27,7 +27,7 @@ click==8.1.8
 rich==13.7.0
 
 # JSON Processing
-orjson==3.9.15
+orjson==3.11.3
 
 # Date/Time
 python-dateutil==2.8.2

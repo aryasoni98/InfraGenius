@@ -56,7 +56,7 @@ python-multipart==0.0.18
 python-dateutil==2.8.2
 
 # JSON Processing
-orjson==3.9.15
+orjson==3.11.3
 
 # Validation
 email-validator==2.1.0
