@@ -18,7 +18,7 @@ pydantic-settings==2.1.0
 
 # Async Support
 asyncio-mqtt==0.16.1
-aiofiles==23.2.0
+aiofiles==24.1.0
 
 # Configuration
 python-dotenv==1.0.0
