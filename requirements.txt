@@ -34,7 +34,7 @@ diskcache==5.6.3
 
 # Database (Optional)
 sqlalchemy==2.0.23
-asyncpg==0.29.0
+asyncpg==0.30.0
 alembic==1.13.1
 
 # Monitoring
