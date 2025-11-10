@@ -24,7 +24,7 @@ colorlog==6.8.0
 
 # Utilities
 click==8.1.8
-rich==13.7.0
+rich==14.2.0
 
 # JSON Processing
 orjson==3.9.15
